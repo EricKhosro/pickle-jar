@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# design reference & local artifacts
+/pngs
+/dev.log
+/design-badge.png
+/LEARNING-NOTES.md
+*.png
+!public/**/*.png
+!src/**/*.png
