@@ -58,6 +58,8 @@ export const Phone = styled.div`
   padding: 14px;
   border-radius: 48px;
   background: #0b0c24;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   box-shadow:
     0 40px 80px rgba(0, 0, 0, 0.45),
     inset 0 0 0 2px rgba(255, 255, 255, 0.06);
@@ -100,7 +102,7 @@ export const Track = styled.div<{ $index: number }>`
 const accentColor = (theme: DefaultTheme, accent: Accent) =>
   theme.colors[accent];
 
-export const Slide = styled.button<{ $accent: Accent }>`
+export const Slide = styled.div<{ $accent: Accent }>`
   flex: 0 0 100%;
   height: 100%;
   display: flex;
@@ -110,7 +112,6 @@ export const Slide = styled.button<{ $accent: Accent }>`
   gap: ${({ theme }) => theme.spacing.md};
   padding: ${({ theme }) => theme.spacing.xl};
   text-align: center;
-  cursor: pointer;
   background: ${({ theme, $accent }) =>
     `radial-gradient(120% 80% at 50% 0%, ${accentColor(theme, $accent)} 0%, ${theme.colors.backgroundDeep} 70%)`};
 `;

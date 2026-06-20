@@ -31,6 +31,7 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
   const [index, setIndex] = useState(0);
   const count = GAMES.length;
   const startX = useRef<number | null>(null);
+  const dragged = useRef(false);
 
   const go = useCallback(
     (dir: number) => setIndex((i) => (i + dir + count) % count),
@@ -49,13 +50,25 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
 
   const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX;
+    dragged.current = false;
   };
 
   const onPointerUp = (e: React.PointerEvent) => {
     if (startX.current === null) return;
     const dx = e.clientX - startX.current;
-    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+    if (Math.abs(dx) > 40) {
+      dragged.current = true;
+      go(dx < 0 ? 1 : -1);
+    }
     startX.current = null;
+  };
+
+  const onPhoneClick = () => {
+    if (dragged.current) {
+      dragged.current = false;
+      return;
+    }
+    onOpen(index);
   };
 
   return (
@@ -79,23 +92,20 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
         <Phone
           role="group"
           aria-roledescription="carousel"
-          aria-label="Featured games"
+          aria-label="Featured games — press arrow keys to browse, click for details"
           tabIndex={0}
           onKeyDown={onKeyDown}
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
+          onClick={onPhoneClick}
         >
           <Screen>
             <Track $index={index}>
               {GAMES.map((game, i) => (
                 <Slide
                   key={game.id}
-                  type="button"
                   $accent={game.accent}
                   aria-hidden={i !== index}
-                  tabIndex={i === index ? 0 : -1}
-                  aria-label={`${game.name} — view details`}
-                  onClick={() => onOpen(i)}
                 >
                   <SlideIcon>
                     <Icon $src={game.icon} $size="40px" />
