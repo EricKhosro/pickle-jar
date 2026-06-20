@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Container } from "@/components/ui/Container";
 
 export const Section = styled.section`
-  visibility: hidden;
   position: relative;
   min-height: 100vh;
   overflow: hidden;
@@ -11,39 +10,6 @@ export const Section = styled.section`
   justify-content: center;
   padding-block: 140px ${({ theme }) => theme.spacing["3xl"]};
   background: ${({ theme }) => theme.colors.background};
-`;
-
-export const BlobLayer = styled.div`
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-`;
-
-export const Deco = styled.span`
-  position: absolute;
-  will-change: transform;
-  -webkit-mask: url("/assets/illustrations/pickle.svg") no-repeat center /
-    contain;
-  mask: url("/assets/illustrations/pickle.svg") no-repeat center / contain;
-`;
-
-export const JarWrap = styled.span`
-  position: absolute;
-  left: 50%;
-  top: 78%;
-  width: clamp(280px, 37vw, 701px);
-  aspect-ratio: 702 / 790;
-  will-change: transform;
-`;
-
-export const Jar = styled.span`
-  display: block;
-  width: 100%;
-  height: 100%;
-  background-color: ${({ theme }) => theme.colors.surfaceRaised};
-  -webkit-mask: url("/assets/illustrations/jar.svg") no-repeat center / contain;
-  mask: url("/assets/illustrations/jar.svg") no-repeat center / contain;
 `;
 
 export const Content = styled(Container)`
