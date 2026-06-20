@@ -19,6 +19,10 @@ const GlobalStyles = createGlobalStyle`
     scroll-behavior: smooth;
   }
 
+  [data-gsap-hidden] {
+    visibility: hidden;
+  }
+
   ${({ theme }) => theme.media.reducedMotion} {
     html {
       scroll-behavior: auto;
