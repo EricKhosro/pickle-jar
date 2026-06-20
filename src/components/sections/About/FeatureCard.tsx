@@ -1,7 +1,7 @@
 "use client";
 
 import { Art, Card, CardTitle } from "./FeatureCards.styles";
-import { Feature } from "./FeatureCards";
+import { Feature } from "../types";
 import { Shape } from "../common.styles";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { useRef } from "react";
@@ -34,7 +34,7 @@ const FeatureCard = ({ feature }: { feature: Feature }) => {
 
   return (
     <Card className="card-reveal" ref={ref}>
-      <Art aria-hidden="true">
+      <Art aria-hidden="true" $aspect={feature.aspect}>
         {feature.art.map((piece, i) => (
           <Shape
             key={i}

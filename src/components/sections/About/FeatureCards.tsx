@@ -1,6 +1,6 @@
-import { Art, Card, CardTitle, Grid } from "./FeatureCards.styles";
-import { Shape } from "../common.styles";
+import { Grid } from "./FeatureCards.styles";
 import FeatureCard from "./FeatureCard";
+import { Feature } from "../types";
 
 const PICKLE = "/assets/illustrations/pickle.svg";
 const JAR = "/assets/illustrations/jar.svg";
@@ -12,24 +12,10 @@ const RATIO = {
   star: 1,
 };
 
-type ArtPiece = {
-  src: string;
-  ratio: number;
-  top: string;
-  left: string;
-  w: string;
-  color: "surfaceRaised" | "primary" | "surface";
-  rotate?: number;
-};
-
-export type Feature = {
-  title: string;
-  art: ArtPiece[];
-};
-
 const FEATURES: Feature[] = [
   {
     title: "Made to be played",
+    aspect: "523 / 248",
     art: [
       {
         src: PICKLE,
@@ -70,6 +56,7 @@ const FEATURES: Feature[] = [
   },
   {
     title: "Small team, big flavor",
+    aspect: "523 / 248",
     art: [
       {
         src: JAR,
@@ -120,6 +107,7 @@ const FEATURES: Feature[] = [
   },
   {
     title: "Creative minds, simple magic",
+    aspect: "523 / 200",
     art: [
       {
         src: PICKLE,

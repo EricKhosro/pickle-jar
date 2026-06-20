@@ -8,6 +8,10 @@ export const Grid = styled.ul`
   margin-inline: auto;
 
   ${({ theme }) => theme.media.tablet} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  ${({ theme }) => theme.media.desktop} {
     grid-template-columns: repeat(3, 1fr);
   }
 `;
@@ -19,17 +23,17 @@ export const Card = styled.li`
   flex-direction: column;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.xl};
-  aspect-ratio: 603 / 560;
-  padding: 88px ${({ theme }) => theme.spacing.xl};
+  min-height: clamp(380px, 45vw, 560px);
+  padding: clamp(40px, 5vw, 88px) clamp(24px, 3vw, 40px);
   background: ${({ theme }) => theme.colors.card};
   border-radius: ${({ theme }) => theme.radii.xl};
   text-align: left;
 `;
 
-export const Art = styled.div`
+export const Art = styled.div<{ $aspect: string }>`
   position: relative;
-  flex: 1;
-  min-height: 160px;
+  width: 100%;
+  aspect-ratio: ${({ $aspect }) => $aspect};
 `;
 
 export const CardTitle = styled.h3`
