@@ -52,4 +52,5 @@ export const Heading = styled.h2`
 
 export const Cta = styled(Button)`
   margin-top: 86px;
+  min-width: 280px;
 `;

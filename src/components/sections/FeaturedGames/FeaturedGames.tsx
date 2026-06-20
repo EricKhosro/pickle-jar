@@ -38,7 +38,7 @@ export default function FeaturedGames() {
           href="#"
           className="fg-reveal"
           $variant="outline"
-          $size="md"
+          $size="lg"
           aria-label="Join our Discord"
         >
           <Icon $src="/assets/icons/discord.svg" $size="20px" />

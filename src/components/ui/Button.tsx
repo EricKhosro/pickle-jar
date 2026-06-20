@@ -24,7 +24,6 @@ export const Button = styled.button<{ $variant?: Variant; $size?: Size }>`
   ${({ $size = "md" }) =>
     $size === "lg"
       ? css`
-          min-width: 280px;
           padding: 16px 48px;
           font-size: clamp(18px, 2vw, 24px);
           line-height: 1.6;
@@ -53,7 +52,7 @@ export const Button = styled.button<{ $variant?: Variant; $size?: Size }>`
         ? css`
             background: transparent;
             color: ${theme.colors.primary};
-            border: 2px solid ${theme.colors.primary};
+            box-shadow: inset 0 0 0 2px ${theme.colors.primary};
             &:hover {
               background: ${theme.colors.primary};
               color: ${theme.colors.onPrimary};
