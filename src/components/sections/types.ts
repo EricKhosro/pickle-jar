@@ -22,3 +22,28 @@ export type Feature = {
   aspect: string;
   art: ArtPiece[];
 };
+
+export type GameStat = {
+  label: string;
+  value: string;
+};
+
+export type Game = {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  icon: string;
+  accent: "primary" | "surfaceRaised" | "accent";
+  stats: GameStat[];
+};
+
+export type BadgeItem = {
+  text: string;
+  icon: string;
+  accent: "primary" | "surfaceRaised";
+  top?: string;
+  left?: string;
+  right?: string;
+  bottom?: string;
+};
