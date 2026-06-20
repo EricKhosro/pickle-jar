@@ -51,6 +51,7 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
   const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX;
     dragged.current = false;
+    e.currentTarget.setPointerCapture(e.pointerId);
   };
 
   const onPointerUp = (e: React.PointerEvent) => {
@@ -72,7 +73,13 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
   };
 
   return (
-    <Stage className={className}>
+    <Stage
+      className={className}
+      role="group"
+      aria-roledescription="carousel"
+      aria-label="Featured games — use arrow keys to browse"
+      onKeyDown={onKeyDown}
+    >
       <PhoneArea>
         {BADGES.map((badge, i) => (
           <Badge
@@ -90,11 +97,8 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
         ))}
 
         <Phone
-          role="group"
-          aria-roledescription="carousel"
-          aria-label="Featured games — press arrow keys to browse, click for details"
+          aria-label="Open game details"
           tabIndex={0}
-          onKeyDown={onKeyDown}
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           onClick={onPhoneClick}
