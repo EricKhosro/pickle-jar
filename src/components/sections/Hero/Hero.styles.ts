@@ -42,12 +42,16 @@ export const BottomBar = styled.div`
   right: 0;
   bottom: 56px;
   z-index: 1;
-  display: flex;
+  display: none;
   align-items: end;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.lg};
   padding-inline: 32px;
   flex-wrap: wrap;
+
+  ${({ theme }) => theme.media.tablet} {
+    display: flex;
+  }
 `;
 
 export const Actions = styled.div`

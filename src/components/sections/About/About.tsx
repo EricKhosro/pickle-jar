@@ -2,6 +2,7 @@
 
 import { Section, Intro, Inner, Eyebrow, Heading, Cta } from "./About.styles";
 import { DecorLayer, Jar, JarWrap, Pickle } from "../common.styles";
+import { PickleConfig } from "../types";
 import FeatureCards from "./FeatureCards";
 import useJarPickles from "@/hooks/useJarPickles";
 
@@ -29,22 +30,23 @@ export default function About() {
     },
   });
 
-  const PICKLES = [
-    { top: "-15%", left: "10%", w: 250, rotate: 210, speed: -22 },
-    { top: "45%", left: "15%", w: 300, rotate: 95, speed: 46 },
-    { top: "63%", left: "75%", w: 210, rotate: 220, speed: -26 },
-    { top: "15%", left: "70%", w: 150, rotate: -100, speed: 24 },
-  ] as const;
+  const PICKLES: PickleConfig[] = [
+    { top: "-10vh", left: "10%", w: 250, rotate: 210, speed: -22, hide: true },
+    { top: "35%", left: "15%", w: 300, rotate: 95, speed: 46 },
+    { top: "63%", left: "75%", w: 210, rotate: 220, speed: -26, hide: true },
+    { top: "5%", left: "80%", w: 150, rotate: -100, speed: 24 },
+  ];
 
   return (
     <Section id="about" ref={scope} data-gsap-hidden>
       <Intro>
         <DecorLayer>
-          <JarWrap $left="50%" $top="-33.5%" className="jar" aria-hidden="true">
+          <JarWrap $left="50%" $top="-22vh" className="jar" aria-hidden="true">
             <Jar $color="primary" />
           </JarWrap>
           {PICKLES.map((p, i) => (
             <Pickle
+              $hideOnMobile={p.hide}
               data-gsap-hidden
               key={i}
               className="pickle"

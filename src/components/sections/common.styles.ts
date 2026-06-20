@@ -22,6 +22,7 @@ export const Pickle = styled.span<{
   $left: string;
   $w: number;
   $color?: keyof DefaultTheme["colors"];
+  $hideOnMobile?: boolean;
 }>`
   position: absolute;
   top: ${({ $top }) => $top};
@@ -34,6 +35,13 @@ export const Pickle = styled.span<{
   mask: url("/assets/illustrations/pickle.svg") no-repeat center / contain;
   background-color: ${({ theme, $color }) =>
     $color ? theme.colors[$color] : theme.colors.surfaceRaised};
+  ${({ $hideOnMobile, theme }) =>
+    $hideOnMobile &&
+    css`
+      ${theme.media.belowTablet} {
+        display: none;
+      }
+    `}
 `;
 
 export const JarWrap = styled.span<{ $top: string; $left: string }>`

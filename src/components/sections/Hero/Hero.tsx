@@ -10,10 +10,11 @@ import {
   ExploreMore,
 } from "./Hero.styles";
 import { DecorLayer, Pickle, JarWrap, Jar } from "../common.styles";
+import { PickleConfig } from "../types";
 import useJarPickles from "@/hooks/useJarPickles";
 
-const PICKLES = [
-  { top: "90%", left: "10%", w: 250, rotate: 210, speed: -22 },
+const PICKLES: PickleConfig[] = [
+  { top: "90%", left: "10%", w: 250, rotate: 210, speed: -22, hide: true },
   { top: "20%", left: "1%", w: 190, rotate: 20, speed: 30 },
   { top: "10%", left: "90%", w: 320, rotate: 185, speed: -36 },
   { top: "48%", left: "15%", w: 300, rotate: 95, speed: 46 },
@@ -21,7 +22,7 @@ const PICKLES = [
   { top: "3%", left: "20%", w: 100, rotate: 280, speed: 20 },
   { top: "31.8%", left: "77%", w: 175, rotate: -45, speed: 24 },
   { top: "-8%", left: "53%", w: 200, rotate: 20, speed: -22 },
-] as const;
+];
 
 export default function Hero() {
   const scope = useJarPickles({
@@ -40,10 +41,11 @@ export default function Hero() {
   });
 
   return (
-    <Section data-gsap-hiddenfi ref={scope} id="home">
+    <Section data-gsap-hidden ref={scope} id="home">
       <DecorLayer>
         {PICKLES.map((p, i) => (
           <Pickle
+            $hideOnMobile={p.hide}
             data-gsap-hidden
             key={i}
             className="pickle"
@@ -56,7 +58,13 @@ export default function Hero() {
             $color="surfaceRaised"
           />
         ))}
-        <JarWrap className="jar" aria-hidden="true" $left="50%" $top="78%">
+        <JarWrap
+          data-gsap-hidden
+          className="jar"
+          aria-hidden="true"
+          $left="50%"
+          $top="78%"
+        >
           <Jar />
         </JarWrap>
       </DecorLayer>
