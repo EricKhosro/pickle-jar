@@ -19,8 +19,8 @@ const HeaderRoot = styled.header<{ $hidden: boolean }>`
   z-index: ${({ theme }) => theme.zIndex.header};
   width: 100%;
   background: transparent;
-  will-change: transform;
-  transform: translate3d(0, ${({ $hidden }) => ($hidden ? "-100%" : "0")}, 0);
+  transform: ${({ $hidden }) =>
+    $hidden ? "translate3d(0, -100%, 0)" : "none"};
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 `;
 
@@ -129,8 +129,8 @@ const MobileMenu = styled.div<{ $open: boolean }>`
   flex-direction: column;
   justify-content: center;
   gap: ${({ theme }) => theme.spacing.xl};
-  padding: ${({ theme }) => theme.spacing["3xl"]};
-  ${({ theme }) => theme.container.padding};
+  padding: ${({ theme }) => theme.spacing["3xl"]}
+    ${({ theme }) => theme.container.padding};
   background: ${({ theme }) => theme.colors.surface};
   transform: translateX(${({ $open }) => ($open ? "0" : "100%")});
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
