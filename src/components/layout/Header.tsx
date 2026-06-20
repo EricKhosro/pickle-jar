@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Logo from "@/components/ui/Logo";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import useHideOnScroll from "@/hooks/useHideOnScroll";
 
 const NAV_LINKS = [
   { label: "About us", href: "#about" },
@@ -12,23 +13,15 @@ const NAV_LINKS = [
   { label: "Contact us", href: "#contact" },
 ] as const;
 
-const HeaderRoot = styled.header<{ $scrolled: boolean }>`
+const HeaderRoot = styled.header<{ $hidden: boolean }>`
   position: fixed;
   inset: 0 0 auto 0;
   z-index: ${({ theme }) => theme.zIndex.header};
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
-    backdrop-filter 0.3s ease;
-
   width: 100%;
-  ${({ $scrolled, theme }) =>
-    $scrolled &&
-    css`
-      background: ${theme.colors.background}f2;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
-    `}
+  background: transparent;
+  will-change: transform;
+  transform: translate3d(0, ${({ $hidden }) => ($hidden ? "-100%" : "0")}, 0);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 `;
 
 const Inner = styled.div`
@@ -160,15 +153,8 @@ const MobileLink = styled.a`
 `;
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
+  const { hidden } = useHideOnScroll();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -178,7 +164,7 @@ export default function Header() {
   }, [open]);
 
   return (
-    <HeaderRoot $scrolled={scrolled}>
+    <HeaderRoot $hidden={hidden && !open}>
       <Inner>
         <Logo />
 
