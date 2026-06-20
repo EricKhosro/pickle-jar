@@ -41,23 +41,3 @@ export const Heading = styled.h2`
   ${capTrim}
 `;
 
-export const DiscordLink = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  margin-top: ${({ theme }) => theme.spacing.md};
-  padding: 12px 24px;
-  border-radius: ${({ theme }) => theme.radii.pill};
-  border: 2px solid ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.primary};
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  font-size: 16px;
-  transition:
-    background 0.25s ease,
-    color 0.25s ease;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.onPrimary};
-  }
-`;

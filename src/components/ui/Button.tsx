@@ -9,10 +9,10 @@ export const Button = styled.button<{ $variant?: Variant; $size?: Size }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6em;
+  gap: 10px;
   font-family: ${({ theme }) => theme.fonts.body};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  border-radius: ${({ theme }) => theme.radii.pill};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  border-radius: 24px;
   white-space: nowrap;
   cursor: pointer;
   transition:
@@ -24,8 +24,10 @@ export const Button = styled.button<{ $variant?: Variant; $size?: Size }>`
   ${({ $size = "md" }) =>
     $size === "lg"
       ? css`
-          padding: 18px 36px;
-          font-size: 17px;
+          min-width: 280px;
+          padding: 16px 48px;
+          font-size: clamp(18px, 2vw, 24px);
+          line-height: 1.6;
         `
       : $size === "sm"
         ? css`
@@ -33,7 +35,7 @@ export const Button = styled.button<{ $variant?: Variant; $size?: Size }>`
             font-size: 14px;
           `
         : css`
-            padding: 14px 28px;
+            padding: 12px 24px;
             font-size: 16px;
           `}
 
@@ -50,11 +52,11 @@ export const Button = styled.button<{ $variant?: Variant; $size?: Size }>`
       : $variant === "outline"
         ? css`
             background: transparent;
-            color: ${theme.colors.text};
-            border: 2px solid currentColor;
+            color: ${theme.colors.primary};
+            border: 2px solid ${theme.colors.primary};
             &:hover {
-              background: ${theme.colors.text};
-              color: ${theme.colors.background};
+              background: ${theme.colors.primary};
+              color: ${theme.colors.onPrimary};
             }
           `
         : css`

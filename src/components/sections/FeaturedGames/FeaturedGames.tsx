@@ -3,16 +3,11 @@
 import { useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { Icon } from "@/components/ui/Icon";
+import { Button } from "@/components/ui/Button";
 import GameSlider from "./GameSlider";
 import GameModal from "./GameModal";
 import { GAMES } from "./games";
-import {
-  Section,
-  Inner,
-  Eyebrow,
-  Heading,
-  DiscordLink,
-} from "./FeaturedGames.styles";
+import { Section, Inner, Eyebrow, Heading } from "./FeaturedGames.styles";
 
 export default function FeaturedGames() {
   const scope = useRef<HTMLElement>(null);
@@ -38,10 +33,17 @@ export default function FeaturedGames() {
       <Inner>
         <Eyebrow className="fg-reveal">Join us</Eyebrow>
         <Heading className="fg-reveal">Our jar dropping game</Heading>
-        <DiscordLink className="fg-reveal" href="#" aria-label="Join our Discord">
+        <Button
+          as="a"
+          href="#"
+          className="fg-reveal"
+          $variant="outline"
+          $size="md"
+          aria-label="Join our Discord"
+        >
           <Icon $src="/assets/icons/discord.svg" $size="20px" />
           Discord
-        </DiscordLink>
+        </Button>
 
         <GameSlider className="fg-reveal" onOpen={setSelected} />
       </Inner>

@@ -66,7 +66,12 @@ export default function About() {
           <Heading className="about-reveal">
             Discover the world&apos;s largest shared pickles jar
           </Heading>
-          <Cta className="about-reveal" type="button" $variant="primary">
+          <Cta
+            className="about-reveal"
+            type="button"
+            $variant="primary"
+            $size="lg"
+          >
             Get to know us
           </Cta>
         </Inner>

@@ -52,12 +52,4 @@ export const Heading = styled.h2`
 
 export const Cta = styled(Button)`
   margin-top: 86px;
-  min-width: 280px;
-  padding: 16px 48px;
-  gap: 10px;
-  border-radius: 24px;
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  font-size: clamp(18px, 2vw, 24px);
-  line-height: 1.6;
-  letter-spacing: 0;
 `;
