@@ -23,12 +23,14 @@ export const Pickle = styled.span<{
   $w: number;
   $color?: keyof DefaultTheme["colors"];
   $hideOnMobile?: boolean;
+  $rotate?: number;
 }>`
   position: absolute;
   top: ${({ $top }) => $top};
   left: ${({ $left }) => $left};
   width: ${({ $w }) => pw($w)};
   height: ${({ $w }) => `calc(${pw($w)} * ${PICKLE_RATIO})`};
+  transform: rotate(${({ $rotate }) => $rotate ?? 0}deg);
   will-change: transform;
   -webkit-mask: url("/assets/illustrations/pickle.svg") no-repeat center /
     contain;
