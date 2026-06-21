@@ -1,6 +1,6 @@
 "use client";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Icon } from "./Icon";
 
 const Badge = styled.a`
@@ -22,7 +22,7 @@ const Badge = styled.a`
   }
 `;
 
-const Label = styled.span`
+const Label = styled.span<{ $expanded?: boolean }>`
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -34,6 +34,14 @@ const Label = styled.span`
     max-width 0.8s cubic-bezier(0.16, 1, 0.3, 1),
     margin-left 0.8s cubic-bezier(0.16, 1, 0.3, 1),
     opacity 0.25s ease;
+
+  ${({ $expanded }) =>
+    $expanded &&
+    css`
+      max-width: 220px;
+      margin-left: 12px;
+      opacity: 1;
+    `}
 
   small {
     font-size: 14px;
@@ -71,15 +79,17 @@ const STORES = {
 export function StoreBadge({
   store,
   href = "#",
+  expanded = false,
 }: {
   store: keyof typeof STORES;
   href?: string;
+  expanded?: boolean;
 }) {
   const data = STORES[store];
   return (
     <Badge href={href} aria-label={`${data.top} ${data.bottom}`}>
       <Icon $src={data.src} $size={data.size} aria-hidden="true" />
-      <Label>
+      <Label $expanded={expanded}>
         <small>{data.top}</small>
         <strong>{data.bottom}</strong>
       </Label>
