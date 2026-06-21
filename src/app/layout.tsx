@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import Providers from "@/components/providers/Providers";
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import ScrollSpy from "@/components/layout/ScrollSpy";
+import CustomCursor from "@/components/ui/CustomCursor";
 import { fontVariables } from "@/styles/fonts";
 
 const SITE_URL = "https://picklejar.games";
@@ -60,6 +63,9 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <Footer />
+          <ScrollSpy />
+          <CustomCursor />
         </Providers>
       </body>
     </html>
