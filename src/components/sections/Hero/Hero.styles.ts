@@ -28,6 +28,13 @@ export const Heading = styled.h1`
   letter-spacing: 2px;
   font-size: clamp(52px, 9vw, 160px);
 
+  .line-mask {
+    display: block;
+    overflow: hidden;
+    padding-block: 0.06em;
+    margin-block: -0.06em;
+  }
+
   .hero-line {
     display: block;
     ${({ theme }) => theme.media.tablet} {

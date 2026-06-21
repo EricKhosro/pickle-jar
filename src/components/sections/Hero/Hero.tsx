@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { StoreBadge } from "@/components/ui/StoreBadge";
 import {
   Section,
@@ -11,7 +12,7 @@ import {
 } from "./Hero.styles";
 import { DecorLayer, Pickle, JarWrap, Jar } from "../common.styles";
 import { PickleConfig } from "../types";
-import useJarPickles from "@/hooks/useJarPickles";
+import usePickles from "@/hooks/usePickles";
 
 const PICKLES: PickleConfig[] = [
   { top: "90%", left: "10%", w: 250, rotate: 210, speed: -22, hide: true },
@@ -25,17 +26,23 @@ const PICKLES: PickleConfig[] = [
 ];
 
 export default function Hero() {
-  const scope = useJarPickles({
+  const scope = useRef<HTMLElement>(null);
+
+  usePickles(scope, {
+    origin: ".jar",
+    reveal: true,
+    animateOrigin: true,
     intro: (tl) => {
       tl.from(".hero-line", {
-        yPercent: 110,
+        yPercent: 100,
         opacity: 0,
-        duration: 0.9,
-        stagger: 0.12,
+        duration: 1.2,
+        ease: "expo.out",
+        stagger: 0.14,
       }).from(
         ".hero-fade",
-        { y: 24, opacity: 0, duration: 0.7, stagger: 0.1 },
-        "-=0.4",
+        { y: 24, opacity: 0, duration: 0.7, ease: "power3.out", stagger: 0.1 },
+        "-=0.6",
       );
     },
   });
@@ -71,9 +78,15 @@ export default function Hero() {
 
       <Content>
         <Heading>
-          <span className="hero-line">Redefine</span>
-          <span className="hero-line">Mobile Gaming</span>
-          <span className="hero-line">Industry</span>
+          <span className="line-mask">
+            <span className="hero-line">Redefine</span>
+          </span>
+          <span className="line-mask">
+            <span className="hero-line">Mobile Gaming</span>
+          </span>
+          <span className="line-mask">
+            <span className="hero-line">Industry</span>
+          </span>
         </Heading>
       </Content>
 
