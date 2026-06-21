@@ -21,7 +21,11 @@ const HeaderRoot = styled.header<{ $hidden: boolean }>`
   background: transparent;
   transform: ${({ $hidden }) =>
     $hidden ? "translate3d(0, -100%, 0)" : "none"};
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: ${({ $hidden }) => ($hidden ? 0 : 1)};
+  pointer-events: ${({ $hidden }) => ($hidden ? "none" : "auto")};
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease;
 `;
 
 const Inner = styled.div`

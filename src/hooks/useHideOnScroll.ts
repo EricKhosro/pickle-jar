@@ -12,7 +12,7 @@ interface HideOnScrollState {
 
 const useHideOnScroll = ({
   threshold = 24,
-  revealOffset = 8,
+  revealOffset = 6,
 }: HideOnScrollOptions = {}): HideOnScrollState => {
   const [state, setState] = useState<HideOnScrollState>({
     hidden: false,
@@ -21,18 +21,28 @@ const useHideOnScroll = ({
 
   useEffect(() => {
     let lastY = window.scrollY;
+    let acc = 0;
     let ticking = false;
 
     const update = () => {
+      ticking = false;
       const y = window.scrollY;
-      const delta = y - lastY;
+      const diff = y - lastY;
+      lastY = y;
+
+      if ((acc > 0 && diff < 0) || (acc < 0 && diff > 0)) acc = 0;
+      acc += diff;
 
       setState((prev) => {
         const scrolled = y > threshold;
         let hidden = prev.hidden;
 
-        if (Math.abs(delta) > revealOffset) {
-          hidden = delta > 0 && y > threshold;
+        if (y <= threshold) {
+          hidden = false;
+        } else if (acc > revealOffset) {
+          hidden = true;
+        } else if (acc < -revealOffset) {
+          hidden = false;
         }
 
         if (hidden === prev.hidden && scrolled === prev.scrolled) {
@@ -40,9 +50,6 @@ const useHideOnScroll = ({
         }
         return { hidden, scrolled };
       });
-
-      lastY = y;
-      ticking = false;
     };
 
     const onScroll = () => {
