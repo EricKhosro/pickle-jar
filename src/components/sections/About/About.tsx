@@ -1,13 +1,19 @@
 "use client";
 
+import { useRef } from "react";
 import { Section, Intro, Inner, Eyebrow, Heading, Cta } from "./About.styles";
 import { DecorLayer, Jar, JarWrap, Pickle } from "../common.styles";
 import { PickleConfig } from "../types";
 import FeatureCards from "./FeatureCards";
-import useJarPickles from "@/hooks/useJarPickles";
+import usePickles from "@/hooks/usePickles";
 
 export default function About() {
-  const scope = useJarPickles({
+  const scope = useRef<HTMLElement>(null);
+
+  usePickles(scope, {
+    origin: ".jar",
+    reveal: true,
+    animateOrigin: true,
     delay: 0.3,
     intro: (tl) => {
       tl.from(".about-reveal", {
@@ -78,6 +84,18 @@ export default function About() {
       </Intro>
 
       <FeatureCards />
+
+      <Pickle
+        className="seam-pickle"
+        data-speed={20}
+        aria-hidden="true"
+        $top="calc(100% - 140px)"
+        $left="62%"
+        $w={200}
+        $rotate={-35}
+        $color="primary"
+        $hideOnMobile
+      />
     </Section>
   );
 }

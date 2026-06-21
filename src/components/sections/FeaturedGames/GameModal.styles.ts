@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-type Accent = "primary" | "surfaceRaised" | "accent";
-
 export const Overlay = styled.div`
   position: fixed;
   inset: 0;
@@ -17,13 +15,15 @@ export const Overlay = styled.div`
 export const Dialog = styled.div`
   position: relative;
   width: 100%;
-  max-width: 460px;
+  max-width: 680px;
+  max-height: 88vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
   gap: ${({ theme }) => theme.spacing.md};
-  padding: clamp(32px, 5vw, 56px);
+  padding: clamp(24px, 4vw, 44px);
   border-radius: ${({ theme }) => theme.radii.xl};
   background: ${({ theme }) => theme.colors.card};
   border: 1px solid ${({ theme }) => theme.colors.border};
@@ -37,6 +37,7 @@ export const Close = styled.button`
   position: absolute;
   top: 16px;
   right: 16px;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -52,17 +53,6 @@ export const Close = styled.button`
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }
-`;
-
-export const ModalIcon = styled.span<{ $accent: Accent }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  border-radius: ${({ theme }) => theme.radii.round};
-  color: ${({ theme }) => theme.colors.onPrimary};
-  background: ${({ theme, $accent }) => theme.colors[$accent]};
 `;
 
 export const ModalTitle = styled.h3`
@@ -87,7 +77,6 @@ export const ModalDesc = styled.p`
 export const Stats = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.xl};
-  margin-top: ${({ theme }) => theme.spacing.sm};
 `;
 
 export const Stat = styled.div`
@@ -104,5 +93,156 @@ export const Stat = styled.div`
   span {
     font-size: ${({ theme }) => theme.fontSizes.sm};
     color: ${({ theme }) => theme.colors.textMuted};
+  }
+`;
+
+export const ScreenshotsBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
+
+  ${({ theme }) => theme.media.belowTablet} {
+    display: none;
+  }
+`;
+
+export const SectionLabel = styled.h4`
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: ${({ theme }) => theme.colors.textMuted};
+`;
+
+export const Gallery = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.sm};
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const Shot = styled.button`
+  position: relative;
+  flex: 0 0 auto;
+  width: 130px;
+  aspect-ratio: 9 / 16;
+  border-radius: ${({ theme }) => theme.radii.md};
+  overflow: hidden;
+  cursor: pointer;
+  scroll-snap-align: start;
+
+  & img {
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.06);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.primary};
+    outline-offset: 2px;
+  }
+`;
+
+export const Lightbox = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: ${({ theme }) => theme.zIndex.modal + 50};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 56px);
+  background: rgba(6, 6, 20, 0.88);
+  backdrop-filter: blur(10px);
+`;
+
+export const LightFigure = styled.div`
+  position: relative;
+  width: min(92vw, 520px);
+  height: min(86vh, 1000px);
+
+  & img {
+    object-fit: contain;
+  }
+`;
+
+export const LightClose = styled.button`
+  position: absolute;
+  top: clamp(12px, 3vw, 28px);
+  right: clamp(12px, 3vw, 28px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  font-size: 26px;
+  line-height: 1;
+  border-radius: ${({ theme }) => theme.radii.round};
+  color: ${({ theme }) => theme.colors.text};
+  background: rgba(255, 255, 255, 0.12);
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.24);
+  }
+`;
+
+export const LightNav = styled.button<{ $side: "left" | "right" }>`
+  position: absolute;
+  top: 50%;
+  ${({ $side }) => ($side === "left" ? "left" : "right")}: clamp(8px, 3vw, 32px);
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  font-size: 30px;
+  line-height: 1;
+  border-radius: ${({ theme }) => theme.radii.round};
+  color: ${({ theme }) => theme.colors.onPrimary};
+  background: ${({ theme }) => theme.colors.primary};
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primaryHover};
+    transform: translateY(-50%) scale(1.08);
+  }
+`;
+
+export const StoreLinks = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.sm};
+`;
+
+export const StoreLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: 12px 22px;
+  border-radius: ${({ theme }) => theme.radii.pill};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.onPrimary};
+  background: ${({ theme }) => theme.colors.primary};
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primaryHover};
+    transform: translateY(-2px);
   }
 `;

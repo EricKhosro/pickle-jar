@@ -1,25 +1,38 @@
 import { BadgeItem } from "../types";
 
+const SIDE = "clamp(40px, calc(37.5vw - 500px), 200px)";
+
 export const BADGES: BadgeItem[] = [
   {
     text: "Use hints when you're stuck",
+    variant: "icon",
+    accent: "surfaceRaised",
     icon: "/assets/icons/lamp.svg",
-    accent: "primary",
-    top: "8%",
-    right: "0",
+    top: "4%",
+    right: SIDE,
   },
   {
     text: "Play unique and challenging puzzles",
-    icon: "/assets/icons/controller.svg",
+    variant: "chat",
     accent: "surfaceRaised",
+    tail: "right",
     top: "46%",
-    left: "0",
+    left: SIDE,
+  },
+  {
+    text: "Play unique and challenging puzzles",
+    variant: "chat",
+    accent: "primary",
+    tail: "left",
+    top: "34%",
+    right: SIDE,
   },
   {
     text: "Play at your own pace",
-    icon: "/assets/icons/star.svg",
+    variant: "icon",
     accent: "primary",
-    bottom: "10%",
-    left: "4%",
+    icon: "/assets/icons/controller.svg",
+    bottom: "4%",
+    left: SIDE,
   },
 ];

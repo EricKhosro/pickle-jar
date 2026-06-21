@@ -1,18 +1,24 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
-import { Icon } from "@/components/ui/Icon";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { GAMES } from "./games";
 import { BADGES } from "./badges";
+import { PHOTOS } from "./photos";
 import {
   Stage,
+  Showcase,
   PhoneArea,
+  PhotoCard,
   Badge,
+  BadgeIcon,
+  BadgeGlyph,
   Phone,
   Screen,
   Track,
   Slide,
-  SlideIcon,
+  SlideInfo,
   SlideName,
   SlideTag,
   Controls,
@@ -32,21 +38,70 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
   const count = GAMES.length;
   const startX = useRef<number | null>(null);
   const dragged = useRef(false);
+  const regionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const inView = useRef(false);
+  const indexRef = useRef(index);
+  indexRef.current = index;
 
   const go = useCallback(
     (dir: number) => setIndex((i) => (i + dir + count) % count),
     [count],
   );
 
-  const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      go(-1);
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      go(1);
-    }
-  };
+  useGSAP(
+    () => {
+      gsap.to(trackRef.current, {
+        xPercent: -index * 100,
+        duration: 0.6,
+        ease: "power3.inOut",
+      });
+    },
+    { dependencies: [index] },
+  );
+
+  useEffect(() => {
+    const el = regionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView.current = entry.isIntersecting;
+      },
+      { threshold: 0.4 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!inView.current) return;
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        go(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        go(1);
+      } else if (e.key === "Enter") {
+        if (target && (target.tagName === "BUTTON" || target.tagName === "A")) {
+          return;
+        }
+        e.preventDefault();
+        onOpen(indexRef.current);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [go, onOpen]);
 
   const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX;
@@ -74,28 +129,48 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
 
   return (
     <Stage
+      ref={regionRef}
       className={className}
       role="group"
       aria-roledescription="carousel"
       aria-label="Featured games — use arrow keys to browse"
-      onKeyDown={onKeyDown}
     >
-      <PhoneArea>
+      <Showcase>
+        {PHOTOS.map((photo, i) => (
+          <PhotoCard
+            key={i}
+            $ratio={photo.ratio}
+            $top={photo.top}
+            $left={photo.left}
+            $right={photo.right}
+            $bottom={photo.bottom}
+          >
+            <Image src={photo.src} alt={photo.alt} fill sizes="400px" />
+          </PhotoCard>
+        ))}
+
         {BADGES.map((badge, i) => (
           <Badge
             key={i}
             aria-hidden="true"
+            $variant={badge.variant}
             $accent={badge.accent}
+            $tail={badge.tail}
             $top={badge.top}
             $left={badge.left}
             $right={badge.right}
             $bottom={badge.bottom}
           >
-            <Icon $src={badge.icon} $size="20px" />
-            {badge.text}
+            {badge.variant === "icon" && badge.icon && (
+              <BadgeIcon $accent={badge.accent}>
+                <BadgeGlyph $src={badge.icon} />
+              </BadgeIcon>
+            )}
+            <span>{badge.text}</span>
           </Badge>
         ))}
 
+        <PhoneArea>
         <Phone
           aria-label="Open game details"
           tabIndex={0}
@@ -104,24 +179,34 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
           onClick={onPhoneClick}
         >
           <Screen>
-            <Track $index={index}>
+            <Track ref={trackRef}>
               {GAMES.map((game, i) => (
                 <Slide
                   key={game.id}
                   $accent={game.accent}
+                  $active={i === index}
                   aria-hidden={i !== index}
                 >
-                  <SlideIcon>
-                    <Icon $src={game.icon} $size="40px" />
-                  </SlideIcon>
-                  <SlideName>{game.name}</SlideName>
-                  <SlideTag>{game.tagline}</SlideTag>
+                  {game.cover && (
+                    <Image
+                      src={game.cover}
+                      alt=""
+                      fill
+                      className="slide-cover"
+                      sizes="480px"
+                    />
+                  )}
+                  <SlideInfo>
+                    <SlideName>{game.name}</SlideName>
+                    <SlideTag>{game.tagline}</SlideTag>
+                  </SlideInfo>
                 </Slide>
               ))}
             </Track>
           </Screen>
         </Phone>
-      </PhoneArea>
+        </PhoneArea>
+      </Showcase>
 
       <Controls>
         <Arrow type="button" onClick={() => go(-1)} aria-label="Previous game">

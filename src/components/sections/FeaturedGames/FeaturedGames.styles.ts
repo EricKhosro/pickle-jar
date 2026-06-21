@@ -16,7 +16,6 @@ export const Inner = styled(Container)`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: ${({ theme }) => theme.spacing.lg};
 `;
 
 export const Eyebrow = styled.p`
@@ -38,6 +37,7 @@ export const Heading = styled.h2`
   letter-spacing: 2px;
   font-size: clamp(40px, 8vw, 104px);
   max-width: 12ch;
+  margin-block: 56px;
   ${capTrim}
 `;
 

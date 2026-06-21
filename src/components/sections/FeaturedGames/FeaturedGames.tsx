@@ -7,7 +7,17 @@ import { Button } from "@/components/ui/Button";
 import GameSlider from "./GameSlider";
 import GameModal from "./GameModal";
 import { GAMES } from "./games";
+import { DecorLayer, Pickle } from "../common.styles";
+import { PickleConfig } from "../types";
+import usePickles from "@/hooks/usePickles";
 import { Section, Inner, Eyebrow, Heading } from "./FeaturedGames.styles";
+
+const PICKLES: PickleConfig[] = [
+  { top: "14%", left: "7%", w: 150, rotate: -25, speed: 34, hide: true },
+  { top: "72%", left: "13%", w: 110, rotate: 70, speed: -26 },
+  { top: "24%", left: "86%", w: 170, rotate: 200, speed: 40, hide: true },
+  { top: "80%", left: "65%", w: 120, rotate: -5, speed: -20 },
+];
 
 export default function FeaturedGames() {
   const scope = useRef<HTMLElement>(null);
@@ -28,8 +38,41 @@ export default function FeaturedGames() {
     { scope },
   );
 
+  usePickles(scope, {
+    origin: '[aria-roledescription="carousel"]',
+    reveal: true,
+  });
+
   return (
-    <Section id="featured" ref={scope}>
+    <Section id="featured" ref={scope} data-gsap-hidden>
+      <DecorLayer>
+        {PICKLES.map((p, i) => (
+          <Pickle
+            key={i}
+            className="pickle"
+            data-gsap-hidden
+            aria-hidden="true"
+            data-rotate={p.rotate}
+            data-speed={p.speed}
+            $top={p.top}
+            $left={p.left}
+            $w={p.w}
+            $color="surfaceRaised"
+            $hideOnMobile={p.hide}
+          />
+        ))}
+        <Pickle
+          className="seam-pickle"
+          data-speed={20}
+          aria-hidden="true"
+          $top="-140px"
+          $left="62%"
+          $w={200}
+          $rotate={-35}
+          $color="surfaceRaised"
+        />
+      </DecorLayer>
+
       <Inner>
         <Eyebrow className="fg-reveal">Join us</Eyebrow>
         <Heading className="fg-reveal">Our jar dropping game</Heading>
