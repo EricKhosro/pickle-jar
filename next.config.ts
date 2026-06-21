@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "**.steamstatic.com" },
       { protocol: "https", hostname: "cdn.cloudflare.steamstatic.com" },
       { protocol: "https", hostname: "shared.fastly.steamstatic.com" },
+      { protocol: "https", hostname: "i.ytimg.com" },
+      { protocol: "https", hostname: "**.mzstatic.com" },
+      { protocol: "https", hostname: "i.pravatar.cc" },
     ],
   },
 };

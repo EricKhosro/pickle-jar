@@ -19,8 +19,34 @@ const GlobalStyles = createGlobalStyle`
     scroll-behavior: smooth;
   }
 
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
   [data-gsap-hidden] {
     visibility: hidden;
+  }
+
+  .seam-pickle {
+    opacity: 0;
+  }
+
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none;
   }
 
   ${({ theme }) => theme.media.reducedMotion} {
