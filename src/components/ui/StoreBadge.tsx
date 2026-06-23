@@ -103,7 +103,12 @@ export function StoreBadge({
 }) {
   const data = STORES[store];
   return (
-    <Badge href={href} aria-label={`${data.top} ${data.bottom}`} $tone={tone}>
+    <Badge
+      href={href}
+      onClick={href === "#" ? (e) => e.preventDefault() : undefined}
+      aria-label={`${data.top} ${data.bottom}`}
+      $tone={tone}
+    >
       <Icon $src={data.src} $size={data.size} aria-hidden="true" />
       <Label $expanded={expanded}>
         <small>{data.top}</small>
