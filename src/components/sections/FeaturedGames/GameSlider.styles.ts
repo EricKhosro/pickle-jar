@@ -1,5 +1,4 @@
-import styled, { css } from "styled-components";
-import { DefaultTheme } from "styled-components";
+import styled, { css, DefaultTheme } from "styled-components";
 import { InsetProps } from "../types";
 import { insetProps } from "@/styles/mixins";
 
@@ -8,6 +7,15 @@ type BadgeAccent = "primary" | "surfaceRaised";
 
 const badgeRing = (accent: BadgeAccent) =>
   accent === "primary" ? "rgba(38, 40, 114, 0.3)" : "rgba(255, 255, 255, 0.4)";
+
+const bubbleText = css`
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: 1.5px;
+  text-align: left;
+`;
 
 export const Stage = styled.div`
   position: relative;
@@ -25,36 +33,39 @@ export const PhoneArea = styled.div`
   justify-content: center;
 `;
 
-export const Badge = styled.span<
-  {
-    $variant: "icon" | "chat";
-    $accent: BadgeAccent;
-    $tail?: "left" | "right";
-  } & InsetProps
+export const PillBadge = styled.span<{ $accent: BadgeAccent } & InsetProps>`
+  position: absolute;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  width: 460px;
+  min-height: 136px;
+  padding: 16px 32px 16px 16px;
+  border-radius: 120px;
+  ${bubbleText}
+  background: ${({ theme, $accent }) => theme.colors[$accent]};
+  color: ${({ theme }) => theme.colors.text};
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
+  ${insetProps}
+
+  ${({ theme }) => theme.media.wide} {
+    display: inline-flex;
+  }
+`;
+
+export const ChatBubble = styled.span<
+  { $accent: BadgeAccent; $tail?: "left" | "right" } & InsetProps
 >`
   position: absolute;
   display: none;
   align-items: center;
   gap: 20px;
-  width: ${({ $variant }) => ($variant === "icon" ? "460px" : "424px")};
-  min-height: ${({ $variant }) => ($variant === "icon" ? "136px" : "100px")};
-  height: ${({ $variant }) => ($variant === "chat" ? "100px" : "auto")};
-  padding: ${({ $variant, $tail }) =>
-    $variant === "icon"
-      ? "20px 44px 20px 24px"
-      : $tail === "left"
-        ? "20px 40px 20px 64px"
-        : "20px 64px 20px 40px"};
-  border-radius: ${({ $variant }) => ($variant === "icon" ? "120px" : "0")};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  font-size: 22px;
-  line-height: 1.25;
-  text-align: left;
-  background: ${({ theme, $variant, $accent }) =>
-    $variant === "icon" ? theme.colors[$accent] : "transparent"};
+  width: 425px;
+  height: 100px;
+  padding: ${({ $tail }) =>
+    $tail === "left" ? "20px 40px 20px 64px" : "20px 64px 20px 40px"};
+  ${bubbleText}
   color: ${({ theme }) => theme.colors.text};
-  box-shadow: ${({ $variant }) =>
-    $variant === "icon" ? "0 24px 50px rgba(0, 0, 0, 0.28)" : "none"};
   ${insetProps}
 
   > * {
@@ -62,22 +73,18 @@ export const Badge = styled.span<
     z-index: 1;
   }
 
-  ${({ $variant, $tail, theme, $accent }) =>
-    $variant === "chat" &&
-    css`
-      &::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        background-color: ${theme.colors[$accent]};
-        -webkit-mask: url(/assets/illustrations/bubble.svg) no-repeat center /
-          100% 100%;
-        mask: url(/assets/illustrations/bubble.svg) no-repeat center / 100% 100%;
-        ${$tail === "left" ? "transform: scaleX(-1);" : ""}
-        filter: drop-shadow(0 22px 36px rgba(0, 0, 0, 0.28));
-      }
-    `}
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: ${({ theme, $accent }) => theme.colors[$accent]};
+    -webkit-mask: url(/assets/illustrations/bubble.svg) no-repeat center / 100%
+      100%;
+    mask: url(/assets/illustrations/bubble.svg) no-repeat center / 100% 100%;
+    ${({ $tail }) => ($tail === "left" ? "transform: scaleX(-1);" : "")}
+    filter: drop-shadow(0 22px 36px rgba(0, 0, 0, 0.28));
+  }
 
   ${({ theme }) => theme.media.wide} {
     display: inline-flex;
@@ -89,10 +96,10 @@ export const BadgeIcon = styled.span<{ $accent: BadgeAccent }>`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 88px;
-  height: 88px;
+  width: 96px;
+  height: 96px;
   border-radius: ${({ theme }) => theme.radii.round};
-  border: 2px solid ${({ $accent }) => badgeRing($accent)};
+  border: 1.6px solid ${({ $accent }) => badgeRing($accent)};
 `;
 
 export const BadgeGlyph = styled.span<{ $src: string }>`
@@ -108,10 +115,12 @@ export const Showcase = styled.div`
   justify-content: center;
 `;
 
-export const PhotoCard = styled.span<{ $ratio: number } & InsetProps>`
+export const PhotoCard = styled.span<
+  { $ratio: number; $maxW: string } & InsetProps
+>`
   position: absolute;
   display: none;
-  width: clamp(240px, 22vw, 400px);
+  width: clamp(240px, 22vw, ${({ $maxW }) => $maxW});
   aspect-ratio: ${({ $ratio }) => $ratio};
   border-radius: 32px;
   overflow: hidden;
@@ -298,4 +307,45 @@ export const DetailsButton = styled.button`
     border-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.primary};
   }
+`;
+
+export const KeyboardHint = styled.p<{ $show: boolean }>`
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-top: ${({ theme }) => theme.spacing.lg};
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  color: ${({ theme }) => theme.colors.textMuted};
+  opacity: ${({ $show }) => ($show ? 1 : 0)};
+  transform: translateY(${({ $show }) => ($show ? "0" : "6px")});
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+  pointer-events: none;
+
+  ${({ theme }) => theme.media.desktop} {
+    display: inline-flex;
+  }
+
+  ${({ theme }) => theme.media.reducedMotion} {
+    transition: none;
+  }
+`;
+
+export const Kbd = styled.kbd`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  border-radius: 7px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 13px;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  line-height: 1;
 `;

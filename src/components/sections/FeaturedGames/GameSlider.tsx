@@ -11,7 +11,8 @@ import {
   Showcase,
   PhoneArea,
   PhotoCard,
-  Badge,
+  PillBadge,
+  ChatBubble,
   BadgeIcon,
   BadgeGlyph,
   Phone,
@@ -26,6 +27,8 @@ import {
   Dots,
   Dot,
   DetailsButton,
+  KeyboardHint,
+  Kbd,
 } from "./GameSlider.styles";
 
 type GameSliderProps = {
@@ -35,18 +38,29 @@ type GameSliderProps = {
 
 export default function GameSlider({ onOpen, className }: GameSliderProps) {
   const [index, setIndex] = useState(0);
+  const [hint, setHint] = useState(false);
   const count = GAMES.length;
   const startX = useRef<number | null>(null);
   const dragged = useRef(false);
   const regionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const inView = useRef(false);
+  const hintDone = useRef(false);
   const indexRef = useRef(index);
   indexRef.current = index;
 
+  const dismissHint = useCallback(() => {
+    if (hintDone.current) return;
+    hintDone.current = true;
+    setHint(false);
+  }, []);
+
   const go = useCallback(
-    (dir: number) => setIndex((i) => (i + dir + count) % count),
-    [count],
+    (dir: number) => {
+      dismissHint();
+      setIndex((i) => (i + dir + count) % count);
+    },
+    [count, dismissHint],
   );
 
   useGSAP(
@@ -66,6 +80,7 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         inView.current = entry.isIntersecting;
+        if (entry.isIntersecting && !hintDone.current) setHint(true);
       },
       { threshold: 0.4 },
     );
@@ -96,12 +111,13 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
           return;
         }
         e.preventDefault();
+        dismissHint();
         onOpen(indexRef.current);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [go, onOpen]);
+  }, [go, onOpen, dismissHint]);
 
   const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX;
@@ -124,6 +140,7 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
       dragged.current = false;
       return;
     }
+    dismissHint();
     onOpen(index);
   };
 
@@ -140,6 +157,7 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
           <PhotoCard
             key={i}
             $ratio={photo.ratio}
+            $maxW={photo.maxWidth}
             $top={photo.top}
             $left={photo.left}
             $right={photo.right}
@@ -149,62 +167,75 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
           </PhotoCard>
         ))}
 
-        {BADGES.map((badge, i) => (
-          <Badge
-            key={i}
-            aria-hidden="true"
-            $variant={badge.variant}
-            $accent={badge.accent}
-            $tail={badge.tail}
-            $top={badge.top}
-            $left={badge.left}
-            $right={badge.right}
-            $bottom={badge.bottom}
-          >
-            {badge.variant === "icon" && badge.icon && (
-              <BadgeIcon $accent={badge.accent}>
-                <BadgeGlyph $src={badge.icon} />
-              </BadgeIcon>
-            )}
-            <span>{badge.text}</span>
-          </Badge>
-        ))}
+        {BADGES.map((badge, i) =>
+          badge.variant === "icon" ? (
+            <PillBadge
+              key={i}
+              aria-hidden="true"
+              $accent={badge.accent}
+              $top={badge.top}
+              $left={badge.left}
+              $right={badge.right}
+              $bottom={badge.bottom}
+            >
+              {badge.icon && (
+                <BadgeIcon $accent={badge.accent}>
+                  <BadgeGlyph $src={badge.icon} />
+                </BadgeIcon>
+              )}
+              <span>{badge.text}</span>
+            </PillBadge>
+          ) : (
+            <ChatBubble
+              key={i}
+              aria-hidden="true"
+              $accent={badge.accent}
+              $tail={badge.tail}
+              $top={badge.top}
+              $left={badge.left}
+              $right={badge.right}
+              $bottom={badge.bottom}
+            >
+              <span>{badge.text}</span>
+            </ChatBubble>
+          ),
+        )}
 
         <PhoneArea>
-        <Phone
-          aria-label="Open game details"
-          tabIndex={0}
-          onPointerDown={onPointerDown}
-          onPointerUp={onPointerUp}
-          onClick={onPhoneClick}
-        >
-          <Screen>
-            <Track ref={trackRef}>
-              {GAMES.map((game, i) => (
-                <Slide
-                  key={game.id}
-                  $accent={game.accent}
-                  $active={i === index}
-                  aria-hidden={i !== index}
-                >
-                  {game.cover && (
-                    <Image
-                      src={game.cover}
-                      alt=""
-                      fill
-                      className="slide-cover"
-                      sizes="480px"
-                    />
-                  )}
-                  <SlideInfo>
-                    <SlideName>{game.name}</SlideName>
-                    <SlideTag>{game.tagline}</SlideTag>
-                  </SlideInfo>
-                </Slide>
-              ))}
-            </Track>
-          </Screen>
-        </Phone>
+          <Phone
+            aria-label="Open game details"
+            tabIndex={0}
+            onPointerDown={onPointerDown}
+            onPointerUp={onPointerUp}
+            onClick={onPhoneClick}
+          >
+            <Screen>
+              <Track ref={trackRef}>
+                {GAMES.map((game, i) => (
+                  <Slide
+                    key={game.id}
+                    $accent={game.accent}
+                    $active={i === index}
+                    aria-hidden={i !== index}
+                  >
+                    {game.cover && (
+                      <Image
+                        src={game.cover}
+                        alt=""
+                        fill
+                        className="slide-cover"
+                        sizes="480px"
+                      />
+                    )}
+                    <SlideInfo>
+                      <SlideName>{game.name}</SlideName>
+                      <SlideTag>{game.tagline}</SlideTag>
+                    </SlideInfo>
+                  </Slide>
+                ))}
+              </Track>
+            </Screen>
+          </Phone>
         </PhoneArea>
       </Showcase>
 
@@ -235,6 +266,14 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
       <DetailsButton type="button" onClick={() => onOpen(index)}>
         Game details
       </DetailsButton>
+      <KeyboardHint $show={hint} aria-hidden="true">
+        <Kbd>←</Kbd>
+        <Kbd>→</Kbd>
+        to browse
+        <span>·</span>
+        <Kbd>Enter</Kbd>
+        for details
+      </KeyboardHint>
     </Stage>
   );
 }
