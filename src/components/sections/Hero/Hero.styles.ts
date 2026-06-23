@@ -1,6 +1,16 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Container } from "@/components/ui/Container";
 import { capTrim } from "@/components/sections/common.styles";
+
+const lineUp = keyframes`
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+`;
+
+const fadeUp = keyframes`
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 
 export const Section = styled.section`
   position: relative;
@@ -40,8 +50,26 @@ export const Heading = styled.h1`
   .hero-line {
     display: block;
     ${capTrim}
+    animation: ${lineUp} 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+
     ${({ theme }) => theme.media.tablet} {
       white-space: nowrap;
+    }
+  }
+
+  .line-mask:nth-child(1) .hero-line {
+    animation-delay: 0.05s;
+  }
+  .line-mask:nth-child(2) .hero-line {
+    animation-delay: 0.19s;
+  }
+  .line-mask:nth-child(3) .hero-line {
+    animation-delay: 0.33s;
+  }
+
+  ${({ theme }) => theme.media.reducedMotion} {
+    .hero-line {
+      animation: none;
     }
   }
 `;
@@ -61,6 +89,22 @@ export const BottomBar = styled.div`
 
   ${({ theme }) => theme.media.tablet} {
     display: flex;
+  }
+
+  .hero-fade {
+    animation: ${fadeUp} 0.7s ease-out both;
+  }
+  .hero-fade:nth-child(1) {
+    animation-delay: 0.45s;
+  }
+  .hero-fade:nth-child(2) {
+    animation-delay: 0.55s;
+  }
+
+  ${({ theme }) => theme.media.reducedMotion} {
+    .hero-fade {
+      animation: none;
+    }
   }
 `;
 

@@ -43,23 +43,10 @@ export default function Hero() {
     origin: ".jar",
     reveal: true,
     animateOrigin: true,
-    intro: (tl) => {
-      tl.from(".hero-line", {
-        yPercent: 100,
-        opacity: 0,
-        duration: 1.2,
-        ease: "expo.out",
-        stagger: 0.14,
-      }).from(
-        ".hero-fade",
-        { y: 24, opacity: 0, duration: 0.7, ease: "power3.out", stagger: 0.1 },
-        "-=0.6",
-      );
-    },
   });
 
   return (
-    <Section data-gsap-hidden ref={scope} id="home">
+    <Section ref={scope} id="home">
       <DecorLayer>
         {PICKLES.map((p, i) => (
           <Pickle
