@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { capTrim } from "../common.styles";
+import { brand } from "@/styles/theme";
+import { Section as SectionBase, Heading as HeadingBase } from "../common.styles";
 
-export const Section = styled.section`
-  position: relative;
+export const Section = styled(SectionBase)`
   z-index: 1;
-  overflow: hidden;
-  background: ${({ theme }) => theme.colors.background};
+  background: ${brand.indigoDarkest};
+  color: ${brand.white};
   border-bottom-left-radius: clamp(40px, 6vw, 72px);
   border-bottom-right-radius: clamp(40px, 6vw, 72px);
   padding-block: clamp(80px, 12vw, 160px) clamp(120px, 14vw, 200px);
@@ -13,142 +13,188 @@ export const Section = styled.section`
 `;
 
 export const Inner = styled.div`
-  max-width: 1100px;
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
   margin-inline: auto;
 `;
 
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(40px, 5vw, 72px);
+  gap: clamp(40px, 5vw, 80px);
   align-items: start;
 
   ${({ theme }) => theme.media.desktop} {
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 0.85fr 1.15fr;
   }
 `;
 
-export const Eyebrow = styled.p`
-  font-family: ${({ theme }) => theme.fonts.serif};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  color: ${({ theme }) => theme.colors.primary};
-`;
-
-export const Heading = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-weight: ${({ theme }) => theme.fontWeights.black};
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  line-height: 0.95;
-  font-size: clamp(36px, 6vw, 80px);
-  color: ${({ theme }) => theme.colors.text};
-  margin-top: ${({ theme }) => theme.spacing.sm};
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
-  ${capTrim}
-`;
-
-export const Card = styled.div`
-  background: ${({ theme }) => theme.colors.surface};
-  border-radius: ${({ theme }) => theme.radii.xl};
-  padding: clamp(28px, 4vw, 48px);
-`;
-
-export const Form = styled.form`
+export const Intro = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-export const Field = styled.div`
+export const Eyebrow = styled.p`
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  color: ${brand.orange};
+`;
+
+export const Heading = styled(HeadingBase).attrs({
+  $color: "primary",
+  $size: "clamp(40px, 6vw, 80px)",
+  $align: "left",
+})``;
+
+export const Form = styled.form`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(20px, 2.4vw, 32px);
+
+  ${({ theme }) => theme.media.tablet} {
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
+export const Field = styled.div<{ $full?: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xs};
+  gap: ${({ theme }) => theme.spacing.sm};
+  ${({ $full }) => $full && "grid-column: 1 / -1;"}
 `;
 
 export const Label = styled.label`
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  color: ${({ theme }) => theme.colors.textMuted};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.88);
+`;
+
+export const Req = styled.span`
+  color: ${brand.orange};
 `;
 
 const fieldBase = `
   width: 100%;
-  border-radius: 16px;
-  padding: 14px 18px;
+  border-radius: 999px;
+  padding: 16px 24px;
   font: inherit;
+  color: ${brand.white};
+  background: rgba(255, 255, 255, 0.07);
+  transition: border-color 0.2s ease, background 0.2s ease;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: ${brand.orange};
+    background: rgba(255, 255, 255, 0.1);
+  }
 `;
 
 export const Input = styled.input<{ $invalid?: boolean }>`
   ${fieldBase}
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.text};
   border: 2px solid
-    ${({ theme, $invalid }) =>
-      $invalid ? theme.colors.primary : theme.colors.border};
-  transition: border-color 0.2s ease;
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.textMuted};
-  }
-
-  &:focus-visible {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
-  }
+    ${({ $invalid }) =>
+      $invalid ? brand.orange : "rgba(255, 255, 255, 0.16)"};
 `;
 
 export const Textarea = styled.textarea<{ $invalid?: boolean }>`
   ${fieldBase}
-  min-height: 140px;
+  border-radius: 28px;
+  min-height: 150px;
   resize: vertical;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.text};
   border: 2px solid
-    ${({ theme, $invalid }) =>
-      $invalid ? theme.colors.primary : theme.colors.border};
-  transition: border-color 0.2s ease;
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.textMuted};
-  }
-
-  &:focus-visible {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
-  }
+    ${({ $invalid }) =>
+      $invalid ? brand.orange : "rgba(255, 255, 255, 0.16)"};
 `;
 
 export const ErrorText = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xs};
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${brand.orange};
+`;
+
+export const SubmitRow = styled.div`
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.spacing.lg};
+`;
+
+export const Consent = styled.label`
+  display: flex;
+  align-items: flex-start;
+  gap: ${({ theme }) => theme.spacing.sm};
+  max-width: 38ch;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: rgba(255, 255, 255, 0.78);
+  cursor: pointer;
+
+  a {
+    color: ${brand.white};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+`;
+
+export const Checkbox = styled.input<{ $invalid?: boolean }>`
+  appearance: none;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  border-radius: 7px;
+  border: 2px solid
+    ${({ $invalid }) =>
+      $invalid ? brand.orange : "rgba(255, 255, 255, 0.4)"};
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+
+  &:checked {
+    background: ${brand.orange} url("/assets/icons/check.svg") no-repeat center /
+      14px;
+    border-color: ${brand.orange};
+  }
 `;
 
 export const Status = styled.p<{ $error?: boolean }>`
+  grid-column: 1 / -1;
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  color: ${({ theme, $error }) =>
-    $error ? theme.colors.primary : theme.colors.text};
+  color: ${({ $error }) => ($error ? brand.orange : brand.white)};
 `;
 
-export const NewsletterCard = styled(Card)`
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.onPrimary};
+export const Newsletter = styled.div`
+  margin-top: ${({ theme }) => theme.spacing.md};
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 export const NewsletterTitle = styled.h3`
   font-family: ${({ theme }) => theme.fonts.display};
-  font-weight: ${({ theme }) => theme.fontWeights.black};
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: ${({ theme }) => theme.fontSizes["2xl"]};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  color: ${brand.white};
+`;
+
+export const NewsletterText = styled.p`
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  color: rgba(255, 255, 255, 0.72);
 `;
 
 export const NewsletterRow = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.xs};
 
   @media (min-width: 460px) {
     flex-direction: row;
@@ -157,21 +203,21 @@ export const NewsletterRow = styled.form`
 
 export const NewsletterInput = styled.input<{ $invalid?: boolean }>`
   flex: 1;
-  border-radius: ${({ theme }) => theme.radii.pill};
+  border-radius: 999px;
   padding: 14px 22px;
   font: inherit;
-  background: ${({ theme }) => theme.colors.onPrimary};
-  color: ${({ theme }) => theme.colors.text};
+  color: ${brand.white};
+  background: rgba(255, 255, 255, 0.07);
   border: 2px solid
-    ${({ theme, $invalid }) =>
-      $invalid ? theme.colors.backgroundDeep : "transparent"};
+    ${({ $invalid }) =>
+      $invalid ? brand.orange : "rgba(255, 255, 255, 0.16)"};
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.textMuted};
+    color: rgba(255, 255, 255, 0.5);
   }
 
   &:focus-visible {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.backgroundDeep};
+    border-color: ${brand.orange};
   }
 `;

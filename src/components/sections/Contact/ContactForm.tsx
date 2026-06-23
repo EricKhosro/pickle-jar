@@ -1,110 +1,195 @@
 "use client";
 
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
-import { submitContact, isValidEmail } from "@/lib/api";
+import Select from "@/components/ui/Select";
+import { submitContact, EMAIL_PATTERN } from "@/lib/api";
 import {
   Form,
   Field,
   Label,
+  Req,
   Input,
   Textarea,
   ErrorText,
+  SubmitRow,
+  Consent,
+  Checkbox,
   Status,
 } from "./Contact.styles";
 
-type Errors = Partial<Record<"name" | "email" | "message", string>>;
-type FormState = "idle" | "submitting" | "success" | "error";
+interface ContactValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  company: string;
+  budget: string;
+  message: string;
+  consent: boolean;
+}
+
+type FormState = "idle" | "success" | "error";
+
+const BUDGETS = ["< $5k", "$5k – $10k", "$10k – $25k", "$25k+"];
 
 export default function ContactForm() {
-  const [values, setValues] = useState({ name: "", email: "", message: "" });
-  const [errors, setErrors] = useState<Errors>({});
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactValues>({ mode: "onTouched" });
   const [state, setState] = useState<FormState>("idle");
 
-  const validate = (): Errors => {
-    const next: Errors = {};
-    if (!values.name.trim()) next.name = "Please enter your name.";
-    if (!values.email.trim()) next.email = "Please enter your email.";
-    else if (!isValidEmail(values.email))
-      next.email = "Please enter a valid email.";
-    if (values.message.trim().length < 10)
-      next.message = "Message should be at least 10 characters.";
-    return next;
-  };
-
-  const onChange = (field: keyof typeof values) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setValues((v) => ({ ...v, [field]: e.target.value }));
-    setErrors((prev) => ({ ...prev, [field]: undefined }));
-  };
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const found = validate();
-    if (Object.keys(found).length) {
-      setErrors(found);
-      return;
-    }
-    setState("submitting");
+  const onSubmit = handleSubmit(async (values) => {
     try {
       const res = await submitContact(values);
       if (!res.ok) throw new Error("failed");
       setState("success");
-      setValues({ name: "", email: "", message: "" });
+      reset();
     } catch {
       setState("error");
     }
-  };
+  });
 
   return (
     <Form onSubmit={onSubmit} noValidate aria-label="Contact form">
       <Field>
-        <Label htmlFor="contact-name">Name</Label>
+        <Label htmlFor="c-first">
+          First name <Req>*</Req>
+        </Label>
         <Input
-          id="contact-name"
-          name="name"
-          value={values.name}
-          onChange={onChange("name")}
-          placeholder="Your name"
-          $invalid={!!errors.name}
-          aria-invalid={!!errors.name}
+          id="c-first"
+          placeholder="First name"
+          $invalid={!!errors.firstName}
+          aria-invalid={!!errors.firstName}
+          {...register("firstName", { required: "Please enter your first name." })}
         />
-        {errors.name && <ErrorText>{errors.name}</ErrorText>}
+        {errors.firstName && <ErrorText>{errors.firstName.message}</ErrorText>}
       </Field>
 
       <Field>
-        <Label htmlFor="contact-email">Email</Label>
+        <Label htmlFor="c-last">
+          Last name <Req>*</Req>
+        </Label>
         <Input
-          id="contact-email"
-          name="email"
+          id="c-last"
+          placeholder="Last name"
+          $invalid={!!errors.lastName}
+          aria-invalid={!!errors.lastName}
+          {...register("lastName", { required: "Please enter your last name." })}
+        />
+        {errors.lastName && <ErrorText>{errors.lastName.message}</ErrorText>}
+      </Field>
+
+      <Field>
+        <Label htmlFor="c-email">
+          Email address <Req>*</Req>
+        </Label>
+        <Input
+          id="c-email"
           type="email"
-          value={values.email}
-          onChange={onChange("email")}
-          placeholder="you@example.com"
+          placeholder="Email address"
           $invalid={!!errors.email}
           aria-invalid={!!errors.email}
+          {...register("email", {
+            required: "Please enter your email.",
+            pattern: { value: EMAIL_PATTERN, message: "Please enter a valid email." },
+          })}
         />
-        {errors.email && <ErrorText>{errors.email}</ErrorText>}
+        {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
       </Field>
 
       <Field>
-        <Label htmlFor="contact-message">Message</Label>
-        <Textarea
-          id="contact-message"
-          name="message"
-          value={values.message}
-          onChange={onChange("message")}
-          placeholder="Tell us about your project…"
-          $invalid={!!errors.message}
-          aria-invalid={!!errors.message}
+        <Label htmlFor="c-phone">
+          Phone number <Req>*</Req>
+        </Label>
+        <Input
+          id="c-phone"
+          type="tel"
+          placeholder="Phone number"
+          $invalid={!!errors.phone}
+          aria-invalid={!!errors.phone}
+          {...register("phone", {
+            required: "Please enter your phone number.",
+            minLength: { value: 6, message: "Please enter a valid phone number." },
+          })}
         />
-        {errors.message && <ErrorText>{errors.message}</ErrorText>}
+        {errors.phone && <ErrorText>{errors.phone.message}</ErrorText>}
       </Field>
 
-      <Button type="submit" $variant="primary" $size="lg" disabled={state === "submitting"}>
-        {state === "submitting" ? "Sending…" : "Send message"}
-      </Button>
+      <Field>
+        <Label htmlFor="c-company">
+          Company name <Req>*</Req>
+        </Label>
+        <Input
+          id="c-company"
+          placeholder="Company name"
+          $invalid={!!errors.company}
+          aria-invalid={!!errors.company}
+          {...register("company", { required: "Please enter your company name." })}
+        />
+        {errors.company && <ErrorText>{errors.company.message}</ErrorText>}
+      </Field>
+
+      <Field>
+        <Label htmlFor="c-budget">
+          Budget <Req>*</Req>
+        </Label>
+        <Controller
+          control={control}
+          name="budget"
+          rules={{ required: "Please select a budget." }}
+          render={({ field }) => (
+            <Select
+              id="c-budget"
+              value={field.value || ""}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              options={BUDGETS}
+              placeholder="Select"
+              invalid={!!errors.budget}
+            />
+          )}
+        />
+        {errors.budget && <ErrorText>{errors.budget.message}</ErrorText>}
+      </Field>
+
+      <Field $full>
+        <Label htmlFor="c-message">Message</Label>
+        <Textarea
+          id="c-message"
+          placeholder="Your message"
+          {...register("message")}
+        />
+      </Field>
+
+      <SubmitRow>
+        <div>
+          <Consent>
+            <Checkbox
+              type="checkbox"
+              $invalid={!!errors.consent}
+              aria-invalid={!!errors.consent}
+              {...register("consent", { required: true })}
+            />
+            <span>
+              I agree to the processing of my data per the{" "}
+              <a href="#">Terms &amp; Conditions.</a>
+            </span>
+          </Consent>
+          {errors.consent && (
+            <ErrorText>Please accept the terms to continue.</ErrorText>
+          )}
+        </div>
+
+        <Button type="submit" $variant="primary" $size="lg" disabled={isSubmitting}>
+          {isSubmitting ? "Sending…" : "Submit request"}
+        </Button>
+      </SubmitRow>
 
       {state === "success" && (
         <Status role="status">Thanks! We&apos;ll be in touch soon.</Status>
