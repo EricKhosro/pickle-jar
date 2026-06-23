@@ -76,7 +76,7 @@ export type Testimonial = {
   name: string;
   quote: string;
   rating: number;
-  accent: "surfaceRaised" | "backgroundDeep" | "primary";
+  accent: "surfaceRaised" | "surface" | "primary";
   avatar: string;
 };
 
@@ -96,6 +96,7 @@ export type ShowcasePhoto = {
   src: string;
   alt: string;
   ratio: number;
+  maxWidth: string;
   top?: string;
   left?: string;
   right?: string;

@@ -1,8 +1,84 @@
 import styled, { css, DefaultTheme } from "styled-components";
+import { Container } from "@/components/ui/Container";
+
+type ColorKey = keyof DefaultTheme["colors"];
 
 export const capTrim = css`
   text-box-trim: trim-both;
   text-box-edge: cap alphabetic;
+`;
+
+export const Section = styled.section<{
+  $bg?: ColorKey;
+  $radius?: string;
+  $padBlock?: string;
+  $padInline?: string;
+}>`
+  position: relative;
+  overflow: hidden;
+  ${({ theme, $bg }) =>
+    $bg &&
+    css`
+      background: ${theme.colors[$bg]};
+    `}
+  ${({ $radius }) =>
+    $radius &&
+    css`
+      border-radius: ${$radius};
+    `}
+  ${({ $padBlock }) =>
+    $padBlock &&
+    css`
+      padding-block: ${$padBlock};
+    `}
+  ${({ $padInline }) =>
+    $padInline &&
+    css`
+      padding-inline: ${$padInline};
+    `}
+`;
+
+export const CenteredContainer = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+`;
+
+export const CenteredColumn = styled.div<{ $maxWidth?: string }>`
+  max-width: ${({ $maxWidth, theme }) => $maxWidth ?? theme.container.maxWidth};
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Eyebrow = styled.p<{ $lineHeight?: number }>`
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-size: clamp(28px, 3.5vw, 40px);
+  line-height: ${({ $lineHeight }) => $lineHeight ?? 1.2};
+  letter-spacing: -0.73px;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.text};
+  ${capTrim}
+`;
+
+export const Heading = styled.h2<{
+  $color?: ColorKey;
+  $size?: string;
+  $align?: "left" | "center";
+  $lineHeight?: number;
+}>`
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-weight: ${({ theme }) => theme.fontWeights.black};
+  text-transform: uppercase;
+  line-height: ${({ $lineHeight }) => $lineHeight ?? 0.95};
+  letter-spacing: 2px;
+  text-align: ${({ $align }) => $align ?? "center"};
+  color: ${({ theme, $color }) => theme.colors[$color ?? "text"]};
+  font-size: ${({ $size }) => $size ?? "clamp(40px, 8vw, 104px)"};
+  ${capTrim}
 `;
 
 export const PICKLE_RATIO = 164 / 106;
