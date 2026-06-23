@@ -310,7 +310,7 @@ export const DetailsButton = styled.button`
 `;
 
 export const KeyboardHint = styled.p<{ $show: boolean }>`
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -326,6 +326,10 @@ export const KeyboardHint = styled.p<{ $show: boolean }>`
     opacity 0.4s ease,
     transform 0.4s ease;
   pointer-events: none;
+
+  ${({ theme }) => theme.media.canHover} {
+    display: flex;
+  }
 
   ${({ theme }) => theme.media.reducedMotion} {
     transition: none;

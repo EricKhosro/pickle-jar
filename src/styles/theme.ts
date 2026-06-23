@@ -12,6 +12,7 @@ export const media = {
   belowTablet: `@media (max-width: ${breakpoints.tablet - 1}px)`,
   belowDesktop: `@media (max-width: ${breakpoints.desktop - 1}px)`,
   reducedMotion: "@media (prefers-reduced-motion: reduce)",
+  canHover: "@media (hover: hover) and (pointer: fine)",
 } as const;
 
 const shared = {
