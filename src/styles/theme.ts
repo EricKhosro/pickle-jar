@@ -106,6 +106,7 @@ export const darkTheme = {
     overlay: "rgba(38, 40, 114, 0.72)",
     footer: brand.orange,
     onFooter: brand.white,
+    footerPickle: "#F7611B",
   },
 };
 
@@ -126,8 +127,9 @@ export const lightTheme = {
     accent: brand.indigo,
     border: "rgba(60, 60, 169, 0.14)",
     overlay: "rgba(60, 60, 169, 0.5)",
-    footer: brand.indigo,
+    footer: brand.orange,
     onFooter: brand.white,
+    footerPickle: "#F7611B",
   },
 };
 
