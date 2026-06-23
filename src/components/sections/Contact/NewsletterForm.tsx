@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/Button";
 import { subscribeNewsletter, EMAIL_PATTERN } from "@/lib/api";
 import {
   Newsletter,
@@ -10,6 +9,7 @@ import {
   NewsletterText,
   NewsletterRow,
   NewsletterInput,
+  SubmitButton,
   ErrorText,
   Status,
 } from "./Contact.styles";
@@ -59,9 +59,9 @@ export default function NewsletterForm() {
             pattern: { value: EMAIL_PATTERN, message: "Please enter a valid email." },
           })}
         />
-        <Button type="submit" $variant="primary" disabled={isSubmitting}>
+        <SubmitButton type="submit" $variant="primary" disabled={isSubmitting}>
           {isSubmitting ? "…" : "Subscribe"}
-        </Button>
+        </SubmitButton>
       </NewsletterRow>
 
       {errors.email && <ErrorText>{errors.email.message}</ErrorText>}

@@ -1,13 +1,23 @@
 import styled from "styled-components";
 import { brand } from "@/styles/theme";
+import { Button } from "@/components/ui/Button";
 import { Section as SectionBase, Heading as HeadingBase } from "../common.styles";
+
+export const SubmitButton = styled(Button)`
+  &:hover {
+    transform: rotate(-3deg);
+  }
+
+  &:active {
+    transform: rotate(-3deg) scale(0.96);
+  }
+`;
 
 export const Section = styled(SectionBase)`
   z-index: 1;
-  background: ${brand.indigoDarkest};
+  background: ${brand.indigo};
   color: ${brand.white};
-  border-bottom-left-radius: clamp(40px, 6vw, 72px);
-  border-bottom-right-radius: clamp(40px, 6vw, 72px);
+  border-radius: clamp(40px, 6vw, 72px);
   padding-block: clamp(80px, 12vw, 160px) clamp(120px, 14vw, 200px);
   padding-inline: clamp(20px, 5vw, 80px);
 `;

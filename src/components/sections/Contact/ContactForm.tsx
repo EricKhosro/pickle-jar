@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Button } from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
 import { submitContact, EMAIL_PATTERN } from "@/lib/api";
 import {
@@ -14,6 +13,7 @@ import {
   Textarea,
   ErrorText,
   SubmitRow,
+  SubmitButton,
   Consent,
   Checkbox,
   Status,
@@ -178,7 +178,9 @@ export default function ContactForm() {
             />
             <span>
               I agree to the processing of my data per the{" "}
-              <a href="#">Terms &amp; Conditions.</a>
+              <a href="/terms-of-use" target="_blank" rel="noopener noreferrer">
+                Terms &amp; Conditions.
+              </a>
             </span>
           </Consent>
           {errors.consent && (
@@ -186,9 +188,14 @@ export default function ContactForm() {
           )}
         </div>
 
-        <Button type="submit" $variant="primary" $size="lg" disabled={isSubmitting}>
+        <SubmitButton
+          type="submit"
+          $variant="primary"
+          $size="lg"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? "Sending…" : "Submit request"}
-        </Button>
+        </SubmitButton>
       </SubmitRow>
 
       {state === "success" && (
