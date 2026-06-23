@@ -104,7 +104,11 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
         e.preventDefault();
         go(1);
       } else if (e.key === "Enter") {
-        if (target && (target.tagName === "BUTTON" || target.tagName === "A")) {
+        const insideSlider =
+          target &&
+          (target.tagName === "BUTTON" || target.tagName === "A") &&
+          regionRef.current?.contains(target);
+        if (insideSlider) {
           return;
         }
         e.preventDefault();

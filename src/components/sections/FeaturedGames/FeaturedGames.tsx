@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import GameSlider from "./GameSlider";
-import GameModal from "./GameModal";
+import dynamic from "next/dynamic";
 import { GAMES } from "./games";
 import { DecorLayer, Pickle } from "../common.styles";
 import { PickleConfig } from "../types";
@@ -17,6 +17,8 @@ import {
   Heading,
   DiscordButton,
 } from "./FeaturedGames.styles";
+
+const GameModal = dynamic(() => import("./GameModal"), { ssr: false });
 
 const PICKLES: PickleConfig[] = [
   { top: "14%", left: "7%", w: 150, rotate: -25, speed: 34, hide: true },
@@ -73,10 +75,9 @@ export default function FeaturedGames() {
         <GameSlider className="fg-reveal" onOpen={setSelected} />
       </Inner>
 
-      <GameModal
-        game={selected === null ? null : GAMES[selected]}
-        onClose={() => setSelected(null)}
-      />
+      {selected !== null && (
+        <GameModal game={GAMES[selected]} onClose={() => setSelected(null)} />
+      )}
     </Section>
   );
 }
