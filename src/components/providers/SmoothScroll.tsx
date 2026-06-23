@@ -17,6 +17,7 @@ export default function SmoothScroll({
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
 
     const instance = new Lenis({
       duration: 1.1,
