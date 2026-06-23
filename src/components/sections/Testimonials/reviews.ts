@@ -4,7 +4,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     name: "Elena M",
     quote:
-      "Pickle Jar's games have that rare mix of creativity and charm — every project feels handcrafted with love.",
+      "A rare mix of creativity and charm in every detail.",
     rating: 4,
     accent: "surfaceRaised",
     avatar: "https://i.pravatar.cc/120?img=5",
@@ -12,15 +12,15 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     name: "Janet Jackson",
     quote:
-      "You can feel the passion behind every pixel. Their worlds are simple, yet so alive.",
+      "You can feel the passion behind every pixel.",
     rating: 4,
-    accent: "surface",
+    accent: "card",
     avatar: "https://i.pravatar.cc/120?img=32",
   },
   {
     name: "Liam Timberland",
     quote:
-      "Working with Pickle Jar was pure fun. They think small, dream big, and deliver something truly flavorful.",
+      "Pure fun to work with — they think small but dream big.",
     rating: 5,
     accent: "primary",
     avatar: "https://i.pravatar.cc/120?img=12",
@@ -28,15 +28,15 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     name: "Priya N",
     quote:
-      "The puzzles hit that sweet spot — relaxing but clever. I keep coming back for just one more level.",
+      "The puzzles hit that sweet spot — relaxing but genuinely clever.",
     rating: 5,
-    accent: "surface",
+    accent: "card",
     avatar: "https://i.pravatar.cc/120?img=45",
   },
   {
     name: "Marcus Reed",
     quote:
-      "Gorgeous art, buttery animations, and a soundtrack I leave running in the background. Pure comfort.",
+      "Gorgeous art, smooth animations, a soundtrack I love.",
     rating: 4,
     accent: "primary",
     avatar: "https://i.pravatar.cc/120?img=15",
@@ -44,9 +44,49 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     name: "Sofia Alvarez",
     quote:
-      "A studio that clearly cares. Every detail feels intentional, and the updates keep getting better.",
+      "A studio that clearly cares — every detail feels intentional.",
     rating: 5,
     accent: "surfaceRaised",
     avatar: "https://i.pravatar.cc/120?img=47",
+  },
+  {
+    name: "Daniel Cho",
+    quote:
+      "I came for one game and stayed for the whole jar. Each release has its own little personality.",
+    rating: 5,
+    accent: "primary",
+    avatar: "https://i.pravatar.cc/120?img=8",
+  },
+  {
+    name: "Amara Okafor",
+    quote:
+      "Perfect for unwinding after work. Cozy vibes, clever levels, and zero pressure to rush.",
+    rating: 4,
+    accent: "card",
+    avatar: "https://i.pravatar.cc/120?img=23",
+  },
+  {
+    name: "Tom Becker",
+    quote:
+      "These games run smooth as butter on my old phone. Tiny downloads, huge amounts of charm.",
+    rating: 5,
+    accent: "surfaceRaised",
+    avatar: "https://i.pravatar.cc/120?img=13",
+  },
+  {
+    name: "Yuki Tanaka",
+    quote:
+      "The art direction is unmatched. Every screen looks like a postcard I want to frame.",
+    rating: 5,
+    accent: "card",
+    avatar: "https://i.pravatar.cc/120?img=51",
+  },
+  {
+    name: "Grace Bennett",
+    quote:
+      "Wholesome, witty, and wonderfully polished. Pickle Jar just gets what makes a game feel good.",
+    rating: 4,
+    accent: "primary",
+    avatar: "https://i.pravatar.cc/120?img=60",
   },
 ];

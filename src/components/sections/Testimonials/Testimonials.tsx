@@ -4,8 +4,11 @@ import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import useReveal from "@/hooks/useReveal";
+import usePickles from "@/hooks/usePickles";
+import Pickles from "@/components/ui/Pickles";
+import { DecorLayer, HalfPickle } from "../common.styles";
+import { PickleConfig } from "../types";
 import { TESTIMONIALS } from "./reviews";
-import { Testimonial } from "../types";
 import {
   Section,
   Inner,
@@ -14,9 +17,7 @@ import {
   Avatar,
   ActivePlayers,
   Heading,
-  Marquee,
-  Row,
-  Track,
+  Collage,
   Card,
   Stars,
   Star,
@@ -24,60 +25,22 @@ import {
   Quote,
 } from "./Testimonials.styles";
 
-function MarqueeRow({ items, dir }: { items: Testimonial[]; dir: 1 | -1 }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const tween = useRef<gsap.core.Tween | null>(null);
+const CARDS = TESTIMONIALS.slice(0, 6);
+const TILTS = [-6.76, 2.5, 6.76, 6, -4.5, 5.5];
+const SHIFTS = [-10, 28, 6, -14, 14, -6];
+const Z = [1, 2, 1, 3, 4, 3];
 
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      gsap.set(trackRef.current, { xPercent: dir === 1 ? -50 : 0 });
-      tween.current = gsap.to(trackRef.current, {
-        xPercent: dir === 1 ? 0 : -50,
-        duration: 48,
-        ease: "none",
-        repeat: -1,
-      });
-    },
-    { scope: trackRef },
-  );
-
-  const doubled = [...items, ...items];
-
-  return (
-    <Row
-      onMouseEnter={() => tween.current?.pause()}
-      onMouseLeave={() => tween.current?.resume()}
-    >
-      <Track ref={trackRef}>
-        {doubled.map((t, i) => (
-          <Card key={`${t.name}-${i}`} $accent={t.accent}>
-            <Stars aria-label={`${t.rating} out of 5 stars`}>
-              {Array.from({ length: 5 }, (_, s) => (
-                <Star
-                  key={s}
-                  aria-hidden="true"
-                  $src="/assets/icons/star.svg"
-                  $size="22px"
-                  $on={s < t.rating}
-                  $accent={t.accent}
-                />
-              ))}
-            </Stars>
-            <Name>{t.name}</Name>
-            <Quote>{t.quote}</Quote>
-          </Card>
-        ))}
-      </Track>
-    </Row>
-  );
-}
+const PICKLES: PickleConfig[] = [
+  { top: "3%", left: "88%", w: 110, rotate: 90, speed: -26, hide: true },
+  { top: "68%", left: "0%", w: 200, rotate: 210, speed: -22 },
+];
 
 export default function Testimonials() {
   const scope = useRef<HTMLElement>(null);
   const countRef = useRef<HTMLElement>(null);
 
   useReveal(scope, ".t-reveal");
+  usePickles(scope, { origin: ".t-collage" });
 
   useGSAP(
     () => {
@@ -99,10 +62,25 @@ export default function Testimonials() {
 
   return (
     <Section id="testimonials" ref={scope} data-gsap-hidden>
+      <DecorLayer>
+        <Pickles items={PICKLES} color="primary" />
+        <HalfPickle
+          className="seam-pickle"
+          aria-hidden="true"
+          data-speed={20}
+          $edge="bottom"
+          $left="64%"
+          $w={180}
+          $rotate={15}
+          $color="primary"
+          $hideOnMobile
+        />
+      </DecorLayer>
+
       <Inner>
         <Top className="t-reveal">
           <Avatars>
-            {TESTIMONIALS.slice(0, 3).map((t) => (
+            {CARDS.slice(0, 3).map((t) => (
               <Avatar key={t.name}>
                 <Image src={t.avatar} alt="" fill sizes="52px" />
               </Avatar>
@@ -117,10 +95,32 @@ export default function Testimonials() {
         <Heading className="t-reveal">Player Testimonials</Heading>
       </Inner>
 
-      <Marquee className="t-reveal">
-        <MarqueeRow items={TESTIMONIALS} dir={-1} />
-        <MarqueeRow items={[...TESTIMONIALS].reverse()} dir={1} />
-      </Marquee>
+      <Collage className="t-reveal t-collage">
+        {CARDS.map((t, i) => (
+          <Card
+            key={t.name}
+            $accent={t.accent}
+            $tilt={TILTS[i]}
+            $shift={SHIFTS[i]}
+            $z={Z[i]}
+          >
+            <Stars aria-label={`${t.rating} out of 5 stars`}>
+              {Array.from({ length: 5 }, (_, s) => (
+                <Star
+                  key={s}
+                  aria-hidden="true"
+                  $src="/assets/icons/star.svg"
+                  $size="56px"
+                  $on={s < t.rating}
+                  $accent={t.accent}
+                />
+              ))}
+            </Stars>
+            <Name>{t.name}</Name>
+            <Quote>{t.quote}</Quote>
+          </Card>
+        ))}
+      </Collage>
     </Section>
   );
 }
