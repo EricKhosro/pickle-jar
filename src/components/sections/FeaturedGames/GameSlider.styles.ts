@@ -235,7 +235,7 @@ export const SlideName = styled.span`
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   letter-spacing: 0.2px;
   font-size: ${({ theme }) => theme.fontSizes.lg};
-  color: ${({ theme }) => theme.colors.text};
+  color: #ffffff;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
 `;
 
@@ -310,12 +310,15 @@ export const DetailsButton = styled.button`
 `;
 
 export const KeyboardHint = styled.p<{ $show: boolean }>`
-  display: none;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  margin-top: ${({ theme }) => theme.spacing.lg};
+  margin-top: -${({ theme }) => theme.spacing.sm};
   font-size: 14px;
   letter-spacing: 0.2px;
+  text-align: center;
   color: ${({ theme }) => theme.colors.textMuted};
   opacity: ${({ $show }) => ($show ? 1 : 0)};
   transform: translateY(${({ $show }) => ($show ? "0" : "6px")});
@@ -323,10 +326,6 @@ export const KeyboardHint = styled.p<{ $show: boolean }>`
     opacity 0.4s ease,
     transform 0.4s ease;
   pointer-events: none;
-
-  ${({ theme }) => theme.media.desktop} {
-    display: inline-flex;
-  }
 
   ${({ theme }) => theme.media.reducedMotion} {
     transition: none;

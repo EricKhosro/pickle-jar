@@ -20,6 +20,28 @@ export const Dialog = styled.div`
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: ${({ theme }) => theme.colors.border} transparent;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.border};
+    background-clip: padding-box;
+    border: 4px solid transparent;
+    border-radius: ${({ theme }) => theme.radii.pill};
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${({ theme }) => theme.colors.primary};
+    background-clip: padding-box;
+  }
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};

@@ -56,11 +56,8 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
   }, []);
 
   const go = useCallback(
-    (dir: number) => {
-      dismissHint();
-      setIndex((i) => (i + dir + count) % count);
-    },
-    [count, dismissHint],
+    (dir: number) => setIndex((i) => (i + dir + count) % count),
+    [count],
   );
 
   useGSAP(
