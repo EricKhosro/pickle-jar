@@ -1,9 +1,11 @@
 "use client";
 
 import { useRef } from "react";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { Section, Intro, Inner, Eyebrow, Heading, Cta } from "./About.styles";
 import { DecorLayer, Jar, JarWrap, Pickle } from "../common.styles";
 import { PickleConfig } from "../types";
+import Pickles from "@/components/ui/Pickles";
 import FeatureCards from "./FeatureCards";
 import usePickles from "@/hooks/usePickles";
 
@@ -36,6 +38,20 @@ export default function About() {
     },
   });
 
+  useGSAP(
+    () => {
+      gsap.from(".about-title", {
+        y: 48,
+        opacity: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        clearProps: "transform",
+        scrollTrigger: { trigger: ".about-title", start: "top 85%", once: true },
+      });
+    },
+    { scope },
+  );
+
   const PICKLES: PickleConfig[] = [
     { top: "-10vh", left: "10%", w: 250, rotate: 210, speed: -22, hide: true },
     { top: "35%", left: "15%", w: 300, rotate: 95, speed: 46 },
@@ -50,26 +66,12 @@ export default function About() {
           <JarWrap $left="50%" $top="-22vh" className="jar" aria-hidden="true">
             <Jar $color="primary" />
           </JarWrap>
-          {PICKLES.map((p, i) => (
-            <Pickle
-              $hideOnMobile={p.hide}
-              data-gsap-hidden
-              key={i}
-              className="pickle"
-              aria-hidden="true"
-              data-rotate={p.rotate}
-              data-speed={p.speed}
-              $top={p.top}
-              $left={p.left}
-              $w={p.w}
-              $color="primary"
-            />
-          ))}
+          <Pickles items={PICKLES} color="primary" />
         </DecorLayer>
 
         <Inner>
           <Eyebrow className="about-reveal">About us</Eyebrow>
-          <Heading className="about-reveal">
+          <Heading className="about-title">
             Discover the world&apos;s largest shared pickles jar
           </Heading>
           <Cta

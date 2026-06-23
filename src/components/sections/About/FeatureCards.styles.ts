@@ -4,15 +4,23 @@ export const Grid = styled.ul`
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-  width: min(100% - 48px, calc(3 * 603px + 2 * 24px));
+  width: min(100% - 48px, calc(3 * 602px + 2 * 24px));
   margin-inline: auto;
 
   ${({ theme }) => theme.media.tablet} {
     grid-template-columns: repeat(2, 1fr);
+
+    & > li:last-child {
+      grid-column: 1 / -1;
+    }
   }
 
   ${({ theme }) => theme.media.desktop} {
     grid-template-columns: repeat(3, 1fr);
+
+    & > li:last-child {
+      grid-column: auto;
+    }
   }
 `;
 
@@ -26,7 +34,7 @@ export const Card = styled.li`
   min-height: clamp(380px, 45vw, 560px);
   padding: clamp(40px, 5vw, 88px) clamp(24px, 3vw, 40px);
   background: ${({ theme }) => theme.colors.card};
-  border-radius: ${({ theme }) => theme.radii.xl};
+  border-radius: 40px;
   text-align: left;
 `;
 
