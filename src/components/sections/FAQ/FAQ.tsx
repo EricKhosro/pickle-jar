@@ -2,6 +2,10 @@
 
 import { useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
+import usePickles from "@/hooks/usePickles";
+import Pickles from "@/components/ui/Pickles";
+import { DecorLayer, HalfPickle } from "../common.styles";
+import { PickleConfig } from "../types";
 import { FAQS } from "./faqs";
 import {
   Section,
@@ -16,10 +20,19 @@ import {
   Answer,
 } from "./FAQ.styles";
 
+const PICKLES: PickleConfig[] = [
+  { top: "10%", left: "4%", w: 120, rotate: -25, speed: 28, hide: true },
+  { top: "22%", left: "92%", w: 140, rotate: 70, speed: -24, hide: true },
+  { top: "60%", left: "3%", w: 110, rotate: 140, speed: -20 },
+  { top: "78%", left: "94%", w: 130, rotate: -10, speed: 26, hide: true },
+];
+
 export default function FAQ() {
   const scope = useRef<HTMLElement>(null);
   const answers = useRef<(HTMLDivElement | null)[]>([]);
   const [open, setOpen] = useState<number | null>(null);
+
+  usePickles(scope, { origin: ".faq-heading" });
 
   useGSAP(
     () => {
@@ -74,11 +87,25 @@ export default function FAQ() {
 
   return (
     <Section id="faq" ref={scope} data-gsap-hidden>
+      <DecorLayer>
+        <Pickles items={PICKLES} color="surfaceRaised" />
+        <HalfPickle
+          className="seam-pickle"
+          aria-hidden="true"
+          data-speed={20}
+          $edge="top"
+          $left="64%"
+          $w={180}
+          $rotate={15}
+          $color="surfaceRaised"
+          $hideOnMobile
+        />
+      </DecorLayer>
       <Inner>
         <Heading className="faq-heading">FAQ</Heading>
         <List>
           {FAQS.map((f, i) => {
-            const accent = i % 2 === 0 ? "indigo" : "orange";
+            const accent = i % 2 === 0 ? "surfaceRaised" : "surface";
             const tilt = i % 2 === 0 ? -1.5 : 1.5;
             return (
               <Item
@@ -93,7 +120,7 @@ export default function FAQ() {
                   onClick={() => setOpen(open === i ? null : i)}
                 >
                   <Q>
-                    {f.question} <Mark $accent={accent}>?</Mark>
+                    {f.question} <Mark>?</Mark>
                   </Q>
                 </Trigger>
                 <AnswerWrap
