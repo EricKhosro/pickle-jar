@@ -14,14 +14,17 @@ const NAV_LINKS = [
   { label: "Contact us", href: "#contact" },
 ] as const;
 
-const HeaderRoot = styled.header<{ $hidden: boolean; $open: boolean }>`
+const HeaderRoot = styled.header<{ $hidden: boolean }>`
   position: fixed;
   inset: 0 0 auto 0;
   z-index: ${({ theme }) => theme.zIndex.header};
   width: 100%;
-  background: transparent;
-  color: ${({ theme, $open }) => ($open ? theme.colors.text : "#ffffff")};
-  mix-blend-mode: ${({ $open }) => ($open ? "normal" : "difference")};
+  color: ${({ theme }) => theme.colors.text};
+  background: ${({ theme }) =>
+    `color-mix(in srgb, ${theme.colors.background} 30%, transparent)`};
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   transform: ${({ $hidden }) =>
     $hidden ? "translate3d(0, -100%, 0)" : "none"};
   opacity: ${({ $hidden }) => ($hidden ? 0 : 1)};
@@ -33,13 +36,13 @@ const HeaderRoot = styled.header<{ $hidden: boolean; $open: boolean }>`
 
 const Inner = styled.div`
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 24px 32px;
+  padding: 14px 32px;
 
   ${({ theme }) => theme.media.desktop} {
-    padding: 48px 32px;
+    padding: 18px 32px;
   }
 `;
 
@@ -175,7 +178,7 @@ export default function Header() {
   }, [open]);
 
   return (
-    <HeaderRoot $hidden={hidden && !open} $open={open}>
+    <HeaderRoot $hidden={hidden && !open}>
       <Inner>
         <BrandLogo />
 
