@@ -13,6 +13,7 @@ import {
 import { DecorLayer, Pickle, JarWrap, Jar } from "../common.styles";
 import { PickleConfig } from "../types";
 import usePickles from "@/hooks/usePickles";
+import { useLenis } from "@/components/providers/SmoothScroll";
 
 const PICKLES: PickleConfig[] = [
   { top: "90%", left: "10%", w: 250, rotate: 210, speed: -22, hide: true },
@@ -27,6 +28,16 @@ const PICKLES: PickleConfig[] = [
 
 export default function Hero() {
   const scope = useRef<HTMLElement>(null);
+  const lenis = useLenis();
+
+  const onExplore = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!lenis) return;
+    e.preventDefault();
+    lenis.scrollTo("#about", {
+      duration: 1.4,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+    });
+  };
 
   usePickles(scope, {
     origin: ".jar",
@@ -95,7 +106,7 @@ export default function Hero() {
           <StoreBadge store="android" />
           <StoreBadge store="ios" />
         </Actions>
-        <ExploreMore className="hero-fade" href="#about">
+        <ExploreMore className="hero-fade" href="#about" onClick={onExplore}>
           Explore more
         </ExploreMore>
       </BottomBar>

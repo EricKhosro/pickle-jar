@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Container } from "@/components/ui/Container";
+import { capTrim } from "@/components/sections/common.styles";
 
 export const Section = styled.section`
   position: relative;
@@ -16,6 +17,7 @@ export const Content = styled(Container)`
   position: relative;
   z-index: 1;
   text-align: center;
+  max-width: none;
   padding-inline: ${({ theme }) => theme.container.padding};
 `;
 
@@ -37,6 +39,7 @@ export const Heading = styled.h1`
 
   .hero-line {
     display: block;
+    ${capTrim}
     ${({ theme }) => theme.media.tablet} {
       white-space: nowrap;
     }
@@ -72,6 +75,8 @@ export const ExploreMore = styled.a`
   font-family: ${({ theme }) => theme.fonts.body};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   font-size: ${({ theme }) => theme.fontSizes.lg};
+  line-height: 1.5;
+  letter-spacing: 0;
   color: ${({ theme }) => theme.colors.text};
   position: relative;
 `;
