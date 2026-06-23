@@ -12,7 +12,7 @@ const LogoLink = styled(Link)`
 
 const Mark = styled(Icon)`
   width: auto;
-  aspect-ratio: 247 / 56;
+  aspect-ratio: 246 / 56;
   height: 36px;
   ${({ theme }) => theme.media.tablet} {
     height: 40px;

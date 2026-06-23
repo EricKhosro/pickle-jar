@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Logo from "@/components/ui/Logo";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import { capTrim } from "@/components/sections/common.styles";
 import useHideOnScroll from "@/hooks/useHideOnScroll";
 
 const NAV_LINKS = [
@@ -13,12 +14,14 @@ const NAV_LINKS = [
   { label: "Contact us", href: "#contact" },
 ] as const;
 
-const HeaderRoot = styled.header<{ $hidden: boolean }>`
+const HeaderRoot = styled.header<{ $hidden: boolean; $open: boolean }>`
   position: fixed;
   inset: 0 0 auto 0;
   z-index: ${({ theme }) => theme.zIndex.header};
   width: 100%;
   background: transparent;
+  color: ${({ theme, $open }) => ($open ? theme.colors.text : "#ffffff")};
+  mix-blend-mode: ${({ $open }) => ($open ? "normal" : "difference")};
   transform: ${({ $hidden }) =>
     $hidden ? "translate3d(0, -100%, 0)" : "none"};
   opacity: ${({ $hidden }) => ($hidden ? 0 : 1)};
@@ -56,6 +59,10 @@ const NavList = styled.ul`
   gap: 48px;
 `;
 
+const BrandLogo = styled(Logo)`
+  color: inherit;
+`;
+
 const NavLink = styled.a`
   position: relative;
   font-family: ${({ theme }) => theme.fonts.body};
@@ -64,8 +71,8 @@ const NavLink = styled.a`
   line-height: 1.5;
   letter-spacing: 1.2px;
   text-align: center;
-  color: ${({ theme }) => theme.colors.text};
-  transition: color 0.2s ease;
+  color: inherit;
+  ${capTrim}
 
   &::after {
     content: "";
@@ -104,7 +111,7 @@ const MenuButton = styled.button<{ $open: boolean }>`
     width: 26px;
     height: 2.5px;
     border-radius: 2px;
-    background: ${({ theme }) => theme.colors.text};
+    background: currentColor;
     transition:
       transform 0.3s ease,
       opacity 0.2s ease;
@@ -168,9 +175,9 @@ export default function Header() {
   }, [open]);
 
   return (
-    <HeaderRoot $hidden={hidden && !open}>
+    <HeaderRoot $hidden={hidden && !open} $open={open}>
       <Inner>
-        <Logo />
+        <BrandLogo />
 
         <DesktopNav aria-label="Primary">
           <NavList>
