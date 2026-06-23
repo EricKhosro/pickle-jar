@@ -1,31 +1,26 @@
 import styled, { DefaultTheme } from "styled-components";
 import { Icon } from "@/components/ui/Icon";
-import { capTrim } from "../common.styles";
+import {
+  Section as SectionBase,
+  CenteredColumn,
+  Heading as HeadingBase,
+} from "../common.styles";
 
-type Accent = "surfaceRaised" | "backgroundDeep" | "primary";
+type Accent = "surfaceRaised" | "surface" | "primary";
 
 const starColor = (theme: DefaultTheme, accent: Accent) => {
   if (accent === "primary") return theme.colors.surfaceRaised;
-  if (accent === "backgroundDeep") return theme.colors.primary;
+  if (accent === "surface") return theme.colors.primary;
   return theme.colors.backgroundDeep;
 };
 
-export const Section = styled.section`
-  position: relative;
-  overflow: hidden;
-  background: ${({ theme }) => theme.colors.surface};
-  border-radius: 56px;
-  padding-block: clamp(80px, 12vw, 160px);
-  padding-inline: clamp(20px, 5vw, 80px);
-`;
+export const Section = styled(SectionBase).attrs({
+  $bg: "background",
+  $padBlock: "clamp(80px, 12vw, 160px)",
+  $padInline: "clamp(20px, 5vw, 80px)",
+})``;
 
-export const Inner = styled.div`
-  max-width: ${({ theme }) => theme.container.maxWidth};
-  margin-inline: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+export const Inner = CenteredColumn;
 
 export const Top = styled.div`
   display: flex;
@@ -47,7 +42,7 @@ export const Avatar = styled.span`
   height: 52px;
   border-radius: ${({ theme }) => theme.radii.round};
   overflow: hidden;
-  border: 3px solid ${({ theme }) => theme.colors.surface};
+  border: 3px solid ${({ theme }) => theme.colors.background};
 
   & img {
     object-fit: cover;
@@ -72,17 +67,10 @@ export const ActivePlayers = styled.div`
   }
 `;
 
-export const Heading = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-weight: ${({ theme }) => theme.fontWeights.black};
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 2px;
-  line-height: 0.95;
-  font-size: clamp(40px, 8vw, 104px);
-  color: ${({ theme }) => theme.colors.text};
+export const Heading = styled(HeadingBase).attrs({
+  $size: "clamp(40px, 8vw, 104px)",
+})`
   margin-top: ${({ theme }) => theme.spacing.lg};
-  ${capTrim}
 `;
 
 export const Marquee = styled.div`
@@ -127,7 +115,6 @@ export const Card = styled.article<{ $accent: Accent }>`
   text-align: center;
   background: ${({ theme, $accent }) => theme.colors[$accent]};
   color: ${({ theme }) => theme.colors.text};
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
 `;
 
 export const Stars = styled.div`

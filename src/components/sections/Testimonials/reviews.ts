@@ -14,7 +14,7 @@ export const TESTIMONIALS: Testimonial[] = [
     quote:
       "You can feel the passion behind every pixel. Their worlds are simple, yet so alive.",
     rating: 4,
-    accent: "backgroundDeep",
+    accent: "surface",
     avatar: "https://i.pravatar.cc/120?img=32",
   },
   {
@@ -30,7 +30,7 @@ export const TESTIMONIALS: Testimonial[] = [
     quote:
       "The puzzles hit that sweet spot — relaxing but clever. I keep coming back for just one more level.",
     rating: 5,
-    accent: "backgroundDeep",
+    accent: "surface",
     avatar: "https://i.pravatar.cc/120?img=45",
   },
   {

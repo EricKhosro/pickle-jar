@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
+import useReveal from "@/hooks/useReveal";
 import { TESTIMONIALS } from "./reviews";
 import { Testimonial } from "../types";
 import {
@@ -76,20 +77,10 @@ export default function Testimonials() {
   const scope = useRef<HTMLElement>(null);
   const countRef = useRef<HTMLElement>(null);
 
+  useReveal(scope, ".t-reveal");
+
   useGSAP(
     () => {
-      gsap.set(scope.current, { autoAlpha: 1 });
-
-      gsap.from(".t-reveal", {
-        y: 40,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: "power3.out",
-        clearProps: "transform",
-        scrollTrigger: { trigger: scope.current, start: "top 75%", once: true },
-      });
-
       const counter = { value: 0 };
       gsap.to(counter, {
         value: 200,
