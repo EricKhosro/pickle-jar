@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { capTrim } from "../common.styles";
+import { capTrim, Section as SectionBase } from "../common.styles";
 
-export const Section = styled.section`
-  position: relative;
-  background: ${({ theme }) => theme.colors.background};
-  padding-block: clamp(64px, 9vw, 120px);
-  padding-inline: clamp(20px, 5vw, 80px);
-`;
+export const Section = styled(SectionBase).attrs({
+  $bg: "surface",
+  $radius: "56px",
+  $padBlock: "clamp(64px, 9vw, 120px)",
+  $padInline: "clamp(20px, 5vw, 80px)",
+})``;
 
 export const Inner = styled.div`
   max-width: ${({ theme }) => theme.container.maxWidth};

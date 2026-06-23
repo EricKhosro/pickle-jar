@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
+import useReveal from "@/hooks/useReveal";
 import { STATS } from "./metrics";
 import { Section, Inner, Item, Num, Label } from "./Stats.styles";
 
@@ -9,20 +10,10 @@ export default function Stats() {
   const scope = useRef<HTMLElement>(null);
   const nums = useRef<(HTMLSpanElement | null)[]>([]);
 
+  useReveal(scope, ".stat", { start: "top 80%" });
+
   useGSAP(
     () => {
-      gsap.set(scope.current, { autoAlpha: 1 });
-
-      gsap.from(".stat", {
-        y: 40,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: "power3.out",
-        clearProps: "transform",
-        scrollTrigger: { trigger: scope.current, start: "top 80%", once: true },
-      });
-
       STATS.forEach((stat, i) => {
         const el = nums.current[i];
         if (!el) return;
