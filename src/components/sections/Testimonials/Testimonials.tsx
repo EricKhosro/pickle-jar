@@ -32,7 +32,7 @@ const Z = [1, 2, 1, 3, 4, 3];
 
 const PICKLES: PickleConfig[] = [
   { top: "3%", left: "88%", w: 110, rotate: 90, speed: -26, hide: true },
-  { top: "68%", left: "0%", w: 200, rotate: 210, speed: -22 },
+  { top: "18%", left: "0%", w: 200, rotate: 210, speed: -22, hide: true },
 ];
 
 export default function Testimonials() {
@@ -40,7 +40,7 @@ export default function Testimonials() {
   const countRef = useRef<HTMLElement>(null);
 
   useReveal(scope, ".t-reveal");
-  usePickles(scope, { origin: ".t-collage" });
+  usePickles(scope, { origin: ".t-collage", defer: true });
 
   useGSAP(
     () => {

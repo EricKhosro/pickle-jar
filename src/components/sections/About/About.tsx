@@ -17,6 +17,7 @@ export default function About() {
     reveal: true,
     animateOrigin: true,
     delay: 0.3,
+    defer: true,
     intro: (tl) => {
       tl.from(".about-reveal", {
         y: 40,

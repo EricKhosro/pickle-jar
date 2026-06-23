@@ -22,9 +22,9 @@ import {
 
 const PICKLES: PickleConfig[] = [
   { top: "10%", left: "4%", w: 120, rotate: -25, speed: 28, hide: true },
-  { top: "22%", left: "92%", w: 140, rotate: 70, speed: -24, hide: true },
-  { top: "60%", left: "3%", w: 110, rotate: 140, speed: -20 },
-  { top: "78%", left: "94%", w: 130, rotate: -10, speed: 26, hide: true },
+  { top: "11%", left: "92%", w: 140, rotate: 70, speed: -24, hide: true },
+  { top: "45%", left: "-3%", w: 110, rotate: 70, speed: -20 },
+  { top: "88%", left: "94%", w: 130, rotate: -10, speed: 26, hide: true },
 ];
 
 export default function FAQ() {
@@ -32,7 +32,7 @@ export default function FAQ() {
   const answers = useRef<(HTMLDivElement | null)[]>([]);
   const [open, setOpen] = useState<number | null>(null);
 
-  usePickles(scope, { origin: ".faq-heading" });
+  usePickles(scope, { origin: ".faq-heading", defer: true });
 
   useGSAP(
     () => {

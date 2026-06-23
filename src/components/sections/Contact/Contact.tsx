@@ -22,7 +22,7 @@ export default function Contact() {
   const scope = useRef<HTMLElement>(null);
 
   useReveal(scope, ".c-reveal");
-  usePickles(scope, { origin: ".c-form", reveal: true });
+  usePickles(scope, { origin: ".c-form", reveal: true, defer: true });
 
   return (
     <Section id="contact" ref={scope} data-gsap-hidden>

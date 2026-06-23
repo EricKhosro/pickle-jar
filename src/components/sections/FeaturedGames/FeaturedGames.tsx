@@ -39,6 +39,7 @@ export default function FeaturedGames() {
   usePickles(scope, {
     origin: '[aria-roledescription="carousel"]',
     reveal: true,
+    defer: true,
   });
 
   return (
