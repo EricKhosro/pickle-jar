@@ -44,11 +44,6 @@ const GlobalStyles = createGlobalStyle`
     opacity: 0;
   }
 
-  html.has-cursor,
-  html.has-cursor * {
-    cursor: none;
-  }
-
   ${({ theme }) => theme.media.reducedMotion} {
     html {
       scroll-behavior: auto;

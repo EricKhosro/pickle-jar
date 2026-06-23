@@ -9,12 +9,11 @@ const Star = styled.div`
   top: 0;
   left: 0;
   z-index: ${({ theme }) => theme.zIndex.cursor};
-  width: 44px;
-  height: 44px;
-  background: #ffffff;
+  width: 96px;
+  aspect-ratio: 88 / 69;
+  background: url("/assets/illustrations/conceptstudio-cursor.svg") no-repeat
+    center / contain;
   mix-blend-mode: difference;
-  -webkit-mask: url("/assets/illustrations/star.svg") no-repeat center / contain;
-  mask: url("/assets/illustrations/star.svg") no-repeat center / contain;
   pointer-events: none;
   opacity: 0;
   will-change: transform;
@@ -34,11 +33,10 @@ export default function CustomCursor() {
     const el = ref.current;
     if (!el) return;
 
-    document.documentElement.classList.add("has-cursor");
     gsap.set(el, { xPercent: -50, yPercent: -50, scale: REST_SCALE });
 
-    const moveX = gsap.quickTo(el, "x", { duration: 0.18, ease: "power3" });
-    const moveY = gsap.quickTo(el, "y", { duration: 0.18, ease: "power3" });
+    const moveX = gsap.quickTo(el, "x", { duration: 0.3, ease: "power3" });
+    const moveY = gsap.quickTo(el, "y", { duration: 0.3, ease: "power3" });
     const spin = gsap.quickTo(el, "rotation", {
       duration: 0.9,
       ease: "power2",
@@ -86,7 +84,6 @@ export default function CustomCursor() {
     return () => {
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("mouseleave", hide);
-      document.documentElement.classList.remove("has-cursor");
     };
   }, []);
 
