@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Button } from "@/components/ui/Button";
 import {
-  Section as SectionBase,
+  RoundedSection,
   CenteredContainer,
   Eyebrow as EyebrowBase,
   Heading as HeadingBase,
@@ -11,9 +11,8 @@ export const Eyebrow = styled(EyebrowBase)`
   margin-bottom: 56px;
 `;
 
-export const Section = styled(SectionBase).attrs({
+export const Section = styled(RoundedSection).attrs({
   $bg: "surface",
-  $radius: "56px",
 })`
   padding-bottom: clamp(80px, 12vw, 160px);
 `;

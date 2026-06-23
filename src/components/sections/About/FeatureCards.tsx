@@ -23,7 +23,7 @@ const FEATURES: Feature[] = [
         top: "4%",
         left: "37%",
         w: "13%",
-        color: "surfaceRaised",
+        color: "featureArt",
         rotate: -160,
       },
       {
@@ -32,7 +32,7 @@ const FEATURES: Feature[] = [
         top: "26%",
         left: "55%",
         w: "19%",
-        color: "surfaceRaised",
+        color: "featureArt",
         rotate: 0,
       },
       {
@@ -41,7 +41,7 @@ const FEATURES: Feature[] = [
         top: "34%",
         left: "31%",
         w: "16%",
-        color: "surfaceRaised",
+        color: "featureArt",
         rotate: 90,
       },
       {
@@ -64,7 +64,7 @@ const FEATURES: Feature[] = [
         top: "40%",
         left: "36%",
         w: "25%",
-        color: "surface",
+        color: "featureArt",
         rotate: 40,
       },
       {
@@ -115,7 +115,7 @@ const FEATURES: Feature[] = [
         top: "25%",
         left: "40%",
         w: "20%",
-        color: "surface",
+        color: "featureArt",
         rotate: 0,
       },
       {

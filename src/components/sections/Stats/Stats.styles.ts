@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { capTrim, Section as SectionBase } from "../common.styles";
+import { capTrim, RoundedSection } from "../common.styles";
 
-export const Section = styled(SectionBase).attrs({
+export const Section = styled(RoundedSection).attrs({
   $bg: "surface",
-  $radius: "56px",
   $padBlock: "clamp(64px, 9vw, 120px)",
   $padInline: "clamp(20px, 5vw, 80px)",
 })``;
