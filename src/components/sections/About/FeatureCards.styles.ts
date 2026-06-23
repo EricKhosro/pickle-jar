@@ -36,12 +36,22 @@ export const Card = styled.li`
   background: ${({ theme }) => theme.colors.card};
   border-radius: 40px;
   text-align: left;
+
+  @media (min-width: 1024px) and (max-width: 1543px) {
+    justify-content: center;
+    gap: clamp(28px, 3vw, 48px);
+  }
 `;
 
 export const Art = styled.div<{ $aspect: string }>`
   position: relative;
   width: 100%;
   aspect-ratio: ${({ $aspect }) => $aspect};
+
+  @media (min-width: 1024px) and (max-width: 1543px) {
+    transform: scale(1.4);
+    transform-origin: center;
+  }
 `;
 
 export const CardTitle = styled.h3`

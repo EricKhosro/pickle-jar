@@ -90,7 +90,6 @@ export const Collage = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(20px, 3vw, 36px);
-  justify-items: center;
 
   ${({ theme }) => theme.media.tablet} {
     grid-template-columns: repeat(2, 1fr);
@@ -114,6 +113,8 @@ export const Card = styled.article<{
   z-index: ${({ $z }) => $z};
   width: 100%;
   max-width: 602px;
+  min-width: 0;
+  margin-inline: auto;
   aspect-ratio: 602 / 432;
   display: flex;
   flex-direction: column;
@@ -145,10 +146,16 @@ export const Card = styled.article<{
 
 export const Stars = styled.div`
   display: flex;
-  gap: 6px;
+  justify-content: center;
+  gap: clamp(4px, 1.2vw, 6px);
+  max-width: 100%;
 `;
 
 export const Star = styled(Icon)<{ $on: boolean; $accent: Accent }>`
+  flex-shrink: 1;
+  min-width: 0;
+  height: auto;
+  aspect-ratio: 1;
   color: ${({ theme, $on, $accent }) =>
     $on ? starOn(theme, $accent) : starOff(theme, $accent)};
 `;
