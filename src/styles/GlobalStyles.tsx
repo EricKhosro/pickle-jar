@@ -117,6 +117,26 @@ const GlobalStyles = createGlobalStyle`
     outline: 2px solid ${({ theme }) => theme.colors.primary};
     outline-offset: 2px;
   }
+
+  ::selection {
+    background: ${({ theme }) => theme.colors.selection};
+    color: ${({ theme }) => theme.colors.onSelection};
+    text-shadow: none;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(root) {
+    z-index: 0;
+  }
+
+  ::view-transition-new(root) {
+    z-index: 1;
+  }
 `;
 
 export default GlobalStyles;
