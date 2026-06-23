@@ -1,47 +1,44 @@
 import styled from "styled-components";
-import { capTrim } from "../common.styles";
+import { brand } from "@/styles/theme";
+import {
+  Section as SectionBase,
+  CenteredColumn,
+  Heading as HeadingBase,
+} from "../common.styles";
 
-export const Section = styled.section`
-  position: relative;
-  overflow: hidden;
-  background: ${({ theme }) => theme.colors.background};
-  padding-block: clamp(80px, 12vw, 160px);
-  padding-inline: clamp(20px, 5vw, 80px);
-`;
+type Accent = "indigo" | "orange";
 
-export const Inner = styled.div`
-  max-width: 920px;
-  margin-inline: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+const cardColor = (accent: Accent) =>
+  accent === "orange" ? brand.orange : brand.indigo;
 
-export const Heading = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-weight: ${({ theme }) => theme.fontWeights.black};
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 2px;
-  font-size: clamp(40px, 8vw, 96px);
-  color: ${({ theme }) => theme.colors.primary};
-  ${capTrim}
-`;
+const markColor = (accent: Accent) =>
+  accent === "orange" ? brand.indigoDarkest : brand.orange;
+
+export const Section = styled(SectionBase).attrs({
+  $bg: "surfaceRaised",
+  $radius: "56px",
+  $padBlock: "clamp(80px, 12vw, 160px)",
+  $padInline: "clamp(20px, 5vw, 80px)",
+})``;
+
+export const Inner = styled(CenteredColumn).attrs({ $maxWidth: "920px" })``;
+
+export const Heading = styled(HeadingBase).attrs({
+  $size: "clamp(40px, 8vw, 96px)",
+})``;
 
 export const List = styled.div`
   width: 100%;
   margin-top: ${({ theme }) => theme.spacing["2xl"]};
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-export const Item = styled.div<{ $open: boolean }>`
+export const Item = styled.div<{ $accent: Accent }>`
   border-radius: 36px;
   overflow: hidden;
-  background: ${({ theme, $open }) =>
-    $open ? theme.colors.surface : theme.colors.surfaceRaised};
-  transition: background ${({ theme }) => theme.transitions.base};
+  background: ${({ $accent }) => cardColor($accent)};
 `;
 
 export const Trigger = styled.button`
@@ -50,7 +47,7 @@ export const Trigger = styled.button`
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: clamp(22px, 3vw, 34px) clamp(24px, 4vw, 56px);
+  padding: clamp(24px, 3.4vw, 40px) clamp(24px, 4vw, 56px);
   text-align: center;
   cursor: pointer;
 `;
@@ -58,13 +55,13 @@ export const Trigger = styled.button`
 export const Q = styled.span`
   font-family: ${({ theme }) => theme.fonts.display};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-  font-size: clamp(18px, 2.2vw, 28px);
+  font-size: clamp(20px, 2.4vw, 30px);
   letter-spacing: 0.5px;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${brand.white};
 `;
 
-export const Mark = styled.span`
-  color: ${({ theme }) => theme.colors.primary};
+export const Mark = styled.span<{ $accent: Accent }>`
+  color: ${({ $accent }) => markColor($accent)};
 `;
 
 export const AnswerWrap = styled.div`
@@ -77,8 +74,8 @@ export const Answer = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.md};
   line-height: ${({ theme }) => theme.lineHeights.relaxed};
   text-align: center;
-  color: ${({ theme }) => theme.colors.text};
-  padding: 0 clamp(24px, 5vw, 64px) clamp(28px, 3vw, 36px);
+  color: ${brand.white};
+  padding: 0 clamp(24px, 5vw, 64px) clamp(28px, 3vw, 38px);
   max-width: 60ch;
   margin-inline: auto;
 `;
