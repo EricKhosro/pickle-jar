@@ -20,7 +20,7 @@ export type ArtPiece = {
   top: string;
   left: string;
   w: string;
-  color: "surfaceRaised" | "primary" | "surface";
+  color: "surfaceRaised" | "primary" | "surface" | "featureArt";
   rotate?: number;
 };
 
@@ -76,7 +76,7 @@ export type Testimonial = {
   name: string;
   quote: string;
   rating: number;
-  accent: "surfaceRaised" | "surface" | "primary";
+  accent: "surfaceRaised" | "card" | "primary";
   avatar: string;
 };
 

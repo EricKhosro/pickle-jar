@@ -38,6 +38,8 @@ export const Section = styled.section<{
     `}
 `;
 
+export const RoundedSection = styled(Section).attrs({ $radius: "56px" })``;
+
 export const CenteredContainer = styled(Container)`
   display: flex;
   flex-direction: column;
@@ -113,6 +115,40 @@ export const Pickle = styled.span<{
   mask: url("/assets/illustrations/pickle.svg") no-repeat center / contain;
   background-color: ${({ theme, $color }) =>
     $color ? theme.colors[$color] : theme.colors.surfaceRaised};
+  ${({ $hideOnMobile, theme }) =>
+    $hideOnMobile &&
+    css`
+      ${theme.media.belowTablet} {
+        display: none;
+      }
+    `}
+`;
+
+export const HalfPickle = styled.span<{
+  $left: string;
+  $w: number;
+  $edge: "top" | "bottom";
+  $color?: keyof DefaultTheme["colors"];
+  $rotate?: number;
+  $hideOnMobile?: boolean;
+}>`
+  position: absolute;
+  left: ${({ $left }) => $left};
+  width: ${({ $w }) => `${$w}px`};
+  height: ${({ $w }) => `${$w * PICKLE_RATIO}px`};
+  ${({ $edge, $w }) =>
+    $edge === "bottom"
+      ? css`
+          top: calc(100% - ${($w * PICKLE_RATIO) / 2}px);
+        `
+      : css`
+          top: ${(-$w * PICKLE_RATIO) / 2}px;
+        `}
+  transform: rotate(${({ $rotate }) => $rotate ?? 0}deg);
+  -webkit-mask: url("/assets/illustrations/pickle.svg") no-repeat center /
+    contain;
+  mask: url("/assets/illustrations/pickle.svg") no-repeat center / contain;
+  background-color: ${({ theme, $color }) => theme.colors[$color ?? "primary"]};
   ${({ $hideOnMobile, theme }) =>
     $hideOnMobile &&
     css`
