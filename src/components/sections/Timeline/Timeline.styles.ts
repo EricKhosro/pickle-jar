@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import { capTrim } from "../common.styles";
+import { Section as SectionBase, Heading as HeadingBase } from "../common.styles";
 
-export const Section = styled.section`
-  position: relative;
-  overflow: hidden;
-  background: ${({ theme }) => theme.colors.surface};
-  padding-block: clamp(64px, 9vw, 120px);
-`;
+export const Section = styled(SectionBase).attrs({
+  $bg: "background",
+  $padBlock: "clamp(64px, 9vw, 120px)",
+})``;
 
 export const Inner = styled.div`
   max-width: ${({ theme }) => theme.container.maxWidth};
@@ -20,15 +18,11 @@ export const Eyebrow = styled.p`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-export const Heading = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-weight: ${({ theme }) => theme.fontWeights.black};
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: clamp(36px, 6vw, 80px);
-  color: ${({ theme }) => theme.colors.text};
+export const Heading = styled(HeadingBase).attrs({
+  $size: "clamp(36px, 6vw, 80px)",
+  $align: "left",
+})`
   margin-top: ${({ theme }) => theme.spacing.sm};
-  ${capTrim}
 `;
 
 export const Viewport = styled.div`
