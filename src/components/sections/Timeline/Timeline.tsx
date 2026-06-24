@@ -39,7 +39,10 @@ export default function Timeline() {
         const track = trackRef.current;
         if (!track) return;
         const distance = () =>
-          track.scrollWidth - (track.parentElement?.clientWidth ?? 0);
+          Math.max(0, track.scrollWidth - (track.parentElement?.clientWidth ?? 0));
+
+        // on very wide screens every card already fits, so there's nothing to scrub
+        if (distance() === 0) return;
 
         gsap.to(track, {
           x: () => -distance(),
