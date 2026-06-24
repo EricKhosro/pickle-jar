@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import type { ChangeEvent } from "react";
+import { useForm, Controller, type UseFormRegisterReturn } from "react-hook-form";
 import Select from "@/components/ui/Select";
-import { submitContact, EMAIL_PATTERN } from "@/lib/api";
+import { EMAIL_PATTERN, type ContactPayload } from "@/lib/api";
+import { submitContact } from "@/lib/actions";
+import useFormSubmit from "@/hooks/useFormSubmit";
+import FormStatus from "./FormStatus";
 import {
   Form,
   Field,
@@ -16,23 +19,29 @@ import {
   SubmitButton,
   Consent,
   Checkbox,
-  Status,
 } from "./Contact.styles";
 
-interface ContactValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  company: string;
-  budget: string;
-  message: string;
-  consent: boolean;
-}
-
-type FormState = "idle" | "success" | "error";
-
 const BUDGETS = ["< $5k", "$5k – $10k", "$10k – $25k", "$25k+"];
+
+const NAME_CHARS = /[^\p{L}\s']/gu;
+const NAME_PATTERN = /^[\p{L}\s']+$/u;
+const NON_DIGITS = /\D/g;
+const PHONE_PATTERN = /^\+?\d+$/;
+
+const stripName = (v: string) => v.replace(NAME_CHARS, "");
+const stripPhone = (v: string) =>
+  (v.startsWith("+") ? "+" : "") + v.replace(NON_DIGITS, "");
+
+const restrict = (
+  reg: UseFormRegisterReturn,
+  sanitize: (value: string) => string,
+) => ({
+  ...reg,
+  onChange: (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.value = sanitize(e.target.value);
+    return reg.onChange(e);
+  },
+});
 
 export default function ContactForm() {
   const {
@@ -40,20 +49,11 @@ export default function ContactForm() {
     control,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
-  } = useForm<ContactValues>({ mode: "onTouched" });
-  const [state, setState] = useState<FormState>("idle");
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<ContactPayload>({ mode: "onTouched" });
+  const { state, run } = useFormSubmit(submitContact, reset);
 
-  const onSubmit = handleSubmit(async (values) => {
-    try {
-      const res = await submitContact(values);
-      if (!res.ok) throw new Error("failed");
-      setState("success");
-      reset();
-    } catch {
-      setState("error");
-    }
-  });
+  const onSubmit = handleSubmit(run);
 
   return (
     <Form onSubmit={onSubmit} noValidate aria-label="Contact form">
@@ -66,7 +66,13 @@ export default function ContactForm() {
           placeholder="First name"
           $invalid={!!errors.firstName}
           aria-invalid={!!errors.firstName}
-          {...register("firstName", { required: "Please enter your first name." })}
+          {...restrict(
+            register("firstName", {
+              required: "Please enter your first name.",
+              pattern: { value: NAME_PATTERN, message: "Letters only." },
+            }),
+            stripName,
+          )}
         />
         {errors.firstName && <ErrorText>{errors.firstName.message}</ErrorText>}
       </Field>
@@ -80,7 +86,13 @@ export default function ContactForm() {
           placeholder="Last name"
           $invalid={!!errors.lastName}
           aria-invalid={!!errors.lastName}
-          {...register("lastName", { required: "Please enter your last name." })}
+          {...restrict(
+            register("lastName", {
+              required: "Please enter your last name.",
+              pattern: { value: NAME_PATTERN, message: "Letters only." },
+            }),
+            stripName,
+          )}
         />
         {errors.lastName && <ErrorText>{errors.lastName.message}</ErrorText>}
       </Field>
@@ -110,13 +122,18 @@ export default function ContactForm() {
         <Input
           id="c-phone"
           type="tel"
+          inputMode="numeric"
           placeholder="Phone number"
           $invalid={!!errors.phone}
           aria-invalid={!!errors.phone}
-          {...register("phone", {
-            required: "Please enter your phone number.",
-            minLength: { value: 6, message: "Please enter a valid phone number." },
-          })}
+          {...restrict(
+            register("phone", {
+              required: "Please enter your phone number.",
+              minLength: { value: 6, message: "Please enter a valid phone number." },
+              pattern: { value: PHONE_PATTERN, message: "Numbers only." },
+            }),
+            stripPhone,
+          )}
         />
         {errors.phone && <ErrorText>{errors.phone.message}</ErrorText>}
       </Field>
@@ -192,20 +209,13 @@ export default function ContactForm() {
           type="submit"
           $variant="primary"
           $size="lg"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !isValid}
         >
           {isSubmitting ? "Sending…" : "Submit request"}
         </SubmitButton>
       </SubmitRow>
 
-      {state === "success" && (
-        <Status role="status">Thanks! We&apos;ll be in touch soon.</Status>
-      )}
-      {state === "error" && (
-        <Status role="status" $error>
-          Something went wrong. Please try again.
-        </Status>
-      )}
+      <FormStatus state={state} successText="Thanks! We'll be in touch soon." />
     </Form>
   );
 }

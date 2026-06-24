@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { subscribeNewsletter, EMAIL_PATTERN } from "@/lib/api";
+import { EMAIL_PATTERN } from "@/lib/api";
+import { subscribeNewsletter } from "@/lib/actions";
+import useFormSubmit from "@/hooks/useFormSubmit";
+import FormStatus from "./FormStatus";
 import {
   Newsletter,
   NewsletterTitle,
@@ -11,34 +13,25 @@ import {
   NewsletterInput,
   SubmitButton,
   ErrorText,
-  Status,
 } from "./Contact.styles";
 
 interface NewsletterValues {
   email: string;
 }
 
-type FormState = "idle" | "success" | "error";
-
 export default function NewsletterForm() {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<NewsletterValues>({ mode: "onTouched" });
-  const [state, setState] = useState<FormState>("idle");
+  const { state, run } = useFormSubmit(
+    ({ email }: NewsletterValues) => subscribeNewsletter(email),
+    reset,
+  );
 
-  const onSubmit = handleSubmit(async ({ email }) => {
-    try {
-      const res = await subscribeNewsletter(email);
-      if (!res.ok) throw new Error("failed");
-      setState("success");
-      reset();
-    } catch {
-      setState("error");
-    }
-  });
+  const onSubmit = handleSubmit(run);
 
   return (
     <Newsletter>
@@ -59,20 +52,17 @@ export default function NewsletterForm() {
             pattern: { value: EMAIL_PATTERN, message: "Please enter a valid email." },
           })}
         />
-        <SubmitButton type="submit" $variant="primary" disabled={isSubmitting}>
+        <SubmitButton
+          type="submit"
+          $variant="primary"
+          disabled={isSubmitting || !isValid}
+        >
           {isSubmitting ? "…" : "Subscribe"}
         </SubmitButton>
       </NewsletterRow>
 
       {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
-      {state === "success" && (
-        <Status role="status">You&apos;re in — welcome to the jar! 🥒</Status>
-      )}
-      {state === "error" && (
-        <Status role="status" $error>
-          Something went wrong. Please try again.
-        </Status>
-      )}
+      <FormStatus state={state} successText="You're in — welcome to the jar! 🥒" />
     </Newsletter>
   );
 }
