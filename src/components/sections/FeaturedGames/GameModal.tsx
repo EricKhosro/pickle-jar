@@ -72,13 +72,13 @@ export default function GameModal({ game, onClose }: GameModalProps) {
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     lenis?.stop();
-    dialogRef.current?.focus();
+    dialogRef.current?.focus({ preventScroll: true });
 
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
       lenis?.start();
-      opener?.focus();
+      opener?.focus({ preventScroll: true });
     };
   }, [game, onClose, lenis, count]);
 
