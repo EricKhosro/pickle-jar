@@ -23,11 +23,6 @@ const HeaderRoot = styled.header<{ $hidden: boolean }>`
   z-index: ${({ theme }) => theme.zIndex.header};
   width: 100%;
   color: ${({ theme }) => theme.colors.text};
-  background: ${({ theme }) =>
-    `color-mix(in srgb, ${theme.colors.background} 30%, transparent)`};
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   transform: ${({ $hidden }) =>
     $hidden ? "translate3d(0, -100%, 0)" : "none"};
   opacity: ${({ $hidden }) => ($hidden ? 0 : 1)};
@@ -35,6 +30,20 @@ const HeaderRoot = styled.header<{ $hidden: boolean }>`
   transition:
     transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.45s ease;
+
+  // blur lives on a pseudo so the header isn't a containing block for the
+  // fixed mobile menu (backdrop-filter would otherwise clip it to the bar)
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: ${({ theme }) =>
+      `color-mix(in srgb, ${theme.colors.background} 30%, transparent)`};
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  }
 `;
 
 const Inner = styled.div`
