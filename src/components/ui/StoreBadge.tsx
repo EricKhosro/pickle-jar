@@ -25,11 +25,13 @@ const Badge = styled.a<{ $tone: Tone }>`
     border-color 0.25s ease,
     background 0.25s ease;
 
-  &:hover {
-    border-color: ${({ theme, $tone }) =>
-      $tone === "onDark" ? theme.colors.onFooter : theme.colors.text};
-    background: ${({ $tone }) =>
-      $tone === "onDark" ? "rgba(255, 255, 255, 0.08)" : "transparent"};
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      border-color: ${({ theme, $tone }) =>
+        $tone === "onDark" ? theme.colors.onFooter : theme.colors.text};
+      background: ${({ $tone }) =>
+        $tone === "onDark" ? "rgba(255, 255, 255, 0.08)" : "transparent"};
+    }
   }
 `;
 
@@ -68,10 +70,12 @@ const Label = styled.span<{ $expanded?: boolean }>`
     ${capTrim}
   }
 
-  ${Badge}:hover & {
-    max-width: 220px;
-    margin-left: 12px;
-    opacity: 1;
+  ${({ theme }) => theme.media.canHover} {
+    ${Badge}:hover & {
+      max-width: 220px;
+      margin-left: 12px;
+      opacity: 1;
+    }
   }
 `;
 

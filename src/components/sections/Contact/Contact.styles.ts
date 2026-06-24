@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/Button";
 import { Section as SectionBase, Heading as HeadingBase } from "../common.styles";
 
 export const SubmitButton = styled(Button)`
-  &:hover {
-    transform: rotate(-3deg);
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      transform: rotate(-3deg);
+    }
   }
 
   &:active {

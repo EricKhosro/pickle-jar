@@ -69,8 +69,10 @@ const Option = styled.li<{ $active: boolean }>`
     $active ? "rgba(255, 255, 255, 0.12)" : "transparent"};
   transition: background 0.15s ease;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.16);
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
   }
 `;
 

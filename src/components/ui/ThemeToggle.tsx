@@ -21,8 +21,10 @@ const ToggleButton = styled.button`
   letter-spacing: 1.2px;
   transition: opacity ${({ theme }) => theme.transitions.fast};
 
-  &:hover {
-    opacity: 0.7;
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      opacity: 0.7;
+    }
   }
 `;
 

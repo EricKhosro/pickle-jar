@@ -133,9 +133,11 @@ export const Card = styled.article<{
     transform: rotate(${({ $tilt }) => $tilt}deg)
       translateY(${({ $shift }) => $shift}px);
 
-    &:hover {
-      z-index: 30;
-      transform: translateY(-10px) scale(1.04);
+    ${({ theme }) => theme.media.canHover} {
+      &:hover {
+        z-index: 30;
+        transform: translateY(-10px) scale(1.04);
+      }
     }
   }
 

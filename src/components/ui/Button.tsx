@@ -43,9 +43,11 @@ export const Button = styled.button<{ $variant?: Variant; $size?: Size }>`
       ? css`
           background: ${theme.colors.primary};
           color: ${theme.colors.onPrimary};
-          &:hover {
-            background: ${theme.colors.primaryHover};
-            transform: translateY(-2px);
+          ${theme.media.canHover} {
+            &:hover {
+              background: ${theme.colors.primaryHover};
+              transform: translateY(-2px);
+            }
           }
         `
       : $variant === "outline"
@@ -53,16 +55,20 @@ export const Button = styled.button<{ $variant?: Variant; $size?: Size }>`
             background: transparent;
             color: ${theme.colors.primary};
             box-shadow: inset 0 0 0 2px ${theme.colors.primary};
-            &:hover {
-              background: ${theme.colors.primary};
-              color: ${theme.colors.onPrimary};
+            ${theme.media.canHover} {
+              &:hover {
+                background: ${theme.colors.primary};
+                color: ${theme.colors.onPrimary};
+              }
             }
           `
         : css`
             background: transparent;
             color: ${theme.colors.text};
-            &:hover {
-              color: ${theme.colors.primary};
+            ${theme.media.canHover} {
+              &:hover {
+                color: ${theme.colors.primary};
+              }
             }
           `}
 

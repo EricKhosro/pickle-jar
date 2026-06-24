@@ -8,11 +8,13 @@ export const WaveChar = styled.span<{ $i: number }>`
 `;
 
 const waveOnHover = css`
-  &:hover ${WaveChar} {
-    transform: translateY(-6px) rotate(-8deg);
-  }
-  &:hover ${WaveChar}:nth-child(even) {
-    transform: translateY(6px) rotate(8deg);
+  ${({ theme }) => theme.media.canHover} {
+    &:hover ${WaveChar} {
+      transform: translateY(-6px) rotate(-8deg);
+    }
+    &:hover ${WaveChar}:nth-child(even) {
+      transform: translateY(6px) rotate(8deg);
+    }
   }
 `;
 
@@ -109,10 +111,12 @@ export const Social = styled.a`
     border-color 0.2s ease,
     transform 0.2s ease;
 
-  &:hover {
-    background: ${({ theme }) => theme.colors.accent};
-    border-color: ${({ theme }) => theme.colors.accent};
-    transform: translateY(-3px);
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      background: ${({ theme }) => theme.colors.accent};
+      border-color: ${({ theme }) => theme.colors.accent};
+      transform: translateY(-3px);
+    }
   }
 `;
 

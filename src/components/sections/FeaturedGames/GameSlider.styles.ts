@@ -154,11 +154,13 @@ export const Phone = styled.div`
     transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.4s ease;
 
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow:
-      0 55px 100px rgba(0, 0, 0, 0.5),
-      0 0 0 8px rgba(253, 103, 33, 0.28);
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow:
+        0 55px 100px rgba(0, 0, 0, 0.5),
+        0 0 0 8px rgba(253, 103, 33, 0.28);
+    }
   }
 
   &:focus-visible {
@@ -266,9 +268,11 @@ export const Arrow = styled.button`
     transform 0.2s ease,
     background 0.2s ease;
 
-  &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
-    transform: scale(1.08);
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      background: ${({ theme }) => theme.colors.primaryHover};
+      transform: scale(1.08);
+    }
   }
 `;
 
@@ -303,9 +307,11 @@ export const DetailsButton = styled.button`
     border-color 0.2s ease,
     color 0.2s ease;
 
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.primary};
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.primary};
+    }
   }
 `;
 

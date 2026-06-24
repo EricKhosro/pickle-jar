@@ -72,8 +72,10 @@ export const Close = styled.button`
   background: ${({ theme }) => theme.colors.surface};
   transition: color 0.2s ease;
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+    }
   }
 `;
 
@@ -165,8 +167,10 @@ export const Shot = styled.button`
     transition: transform 0.4s ease;
   }
 
-  &:hover img {
-    transform: scale(1.06);
+  ${({ theme }) => theme.media.canHover} {
+    &:hover img {
+      transform: scale(1.06);
+    }
   }
 
   &:focus-visible {
@@ -213,8 +217,10 @@ export const LightClose = styled.button`
   background: rgba(255, 255, 255, 0.12);
   transition: background 0.2s ease;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.24);
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      background: rgba(255, 255, 255, 0.24);
+    }
   }
 `;
 
@@ -237,9 +243,11 @@ export const LightNav = styled.button<{ $side: "left" | "right" }>`
     background 0.2s ease,
     transform 0.2s ease;
 
-  &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
-    transform: translateY(-50%) scale(1.08);
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      background: ${({ theme }) => theme.colors.primaryHover};
+      transform: translateY(-50%) scale(1.08);
+    }
   }
 `;
 
@@ -263,8 +271,10 @@ export const StoreLink = styled.a`
     transform 0.2s ease,
     background 0.2s ease;
 
-  &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
-    transform: translateY(-2px);
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      background: ${({ theme }) => theme.colors.primaryHover};
+      transform: translateY(-2px);
+    }
   }
 `;

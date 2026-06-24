@@ -57,12 +57,14 @@ const Play = styled.button`
   cursor: pointer;
   transition: background 0.2s ease;
 
-  &:hover {
-    background: rgba(12, 12, 40, 0.18);
-  }
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      background: rgba(12, 12, 40, 0.18);
+    }
 
-  &:hover span {
-    transform: scale(1.08);
+    &:hover span {
+      transform: scale(1.08);
+    }
   }
 `;
 

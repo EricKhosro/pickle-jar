@@ -90,11 +90,13 @@ const NavLink = styled.a`
     transition: width 0.25s ease;
   }
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
-  }
-  &:hover::after {
-    width: 100%;
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+    &:hover::after {
+      width: 100%;
+    }
   }
 `;
 
@@ -163,8 +165,10 @@ const MobileLink = styled.a`
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.text};
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+    }
   }
 `;
 

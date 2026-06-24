@@ -30,8 +30,10 @@ export const Back = styled(Link)`
   color: ${({ theme }) => theme.colors.textMuted};
   transition: color 0.2s ease;
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
+  ${({ theme }) => theme.media.canHover} {
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+    }
   }
 `;
 
