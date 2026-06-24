@@ -4,7 +4,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -26,26 +25,29 @@ const ThemeModeContext = createContext<ThemeModeContextValue | undefined>(
 
 const STORAGE_KEY = "pj-theme";
 
-export function ThemeModeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setModeState] = useState<ThemeMode>("dark");
+const persist = (next: ThemeMode) => {
+  document.cookie = `${STORAGE_KEY}=${next};path=/;max-age=31536000;samesite=lax`;
+  document.documentElement.dataset.theme = next;
+};
 
-  useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync persisted theme after hydration
-    if (stored === "light" || stored === "dark") setModeState(stored);
-  }, []);
+export function ThemeModeProvider({
+  children,
+  initialMode,
+}: {
+  children: React.ReactNode;
+  initialMode: ThemeMode;
+}) {
+  const [mode, setModeState] = useState<ThemeMode>(initialMode);
 
   const setMode = useCallback((next: ThemeMode) => {
     setModeState(next);
-    window.localStorage.setItem(STORAGE_KEY, next);
-    document.documentElement.dataset.theme = next;
+    persist(next);
   }, []);
 
   const toggleTheme = useCallback(() => {
     setModeState((prev) => {
       const next = prev === "dark" ? "light" : "dark";
-      window.localStorage.setItem(STORAGE_KEY, next);
-      document.documentElement.dataset.theme = next;
+      persist(next);
       return next;
     });
   }, []);

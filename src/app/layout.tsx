@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import Providers from "@/components/providers/Providers";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -7,6 +8,7 @@ import CustomCursorMount from "@/components/ui/CustomCursorMount";
 import { fontVariables } from "@/styles/fonts";
 import JsonLd from "@/components/seo/JsonLd";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import type { ThemeMode } from "@/styles/theme";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -101,19 +103,17 @@ const siteLd = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const stored = (await cookies()).get("pj-theme")?.value;
+  const theme: ThemeMode = stored === "light" ? "light" : "dark";
+
   return (
-    <html
-      lang="en"
-      data-theme="dark"
-      className={fontVariables}
-      suppressHydrationWarning
-    >
+    <html lang="en" data-theme={theme} className={fontVariables}>
       <body>
         <JsonLd data={siteLd} />
-        <Providers>
+        <Providers initialMode={theme}>
           <Header />
           {children}
           <Footer />
