@@ -207,6 +207,12 @@ export const NewsletterRow = styled.form`
   @media (min-width: 460px) {
     flex-direction: row;
   }
+
+  // hold the button width so the "…" loading label can't reflow the input
+  ${SubmitButton} {
+    flex-shrink: 0;
+    min-width: 132px;
+  }
 `;
 
 export const NewsletterInput = styled.input<{ $invalid?: boolean }>`
