@@ -12,11 +12,7 @@ export const Inner = styled.div`
   padding-inline: clamp(20px, 5vw, 80px);
 `;
 
-export const Eyebrow = styled.p`
-  font-family: ${({ theme }) => theme.fonts.serif};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  color: ${({ theme }) => theme.colors.primary};
-`;
+export { EyebrowSmall as Eyebrow } from "../common.styles";
 
 export const Heading = styled(HeadingBase).attrs({
   $size: "clamp(36px, 6vw, 80px)",

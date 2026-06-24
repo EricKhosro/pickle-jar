@@ -66,6 +66,12 @@ export const Eyebrow = styled.p<{ $lineHeight?: number }>`
   ${capTrim}
 `;
 
+export const EyebrowSmall = styled.p`
+  font-family: ${({ theme }) => theme.fonts.serif};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
 export const Heading = styled.h2<{
   $color?: ColorKey;
   $size?: string;

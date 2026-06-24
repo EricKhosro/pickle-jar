@@ -2,9 +2,10 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useGSAP } from "@/lib/gsap";
 import useReveal from "@/hooks/useReveal";
 import usePickles from "@/hooks/usePickles";
+import countUp from "@/lib/countUp";
 import Pickles from "@/components/ui/Pickles";
 import { DecorLayer, HalfPickle } from "../common.styles";
 import { PickleConfig } from "../types";
@@ -44,17 +45,12 @@ export default function Testimonials() {
 
   useGSAP(
     () => {
-      const counter = { value: 0 };
-      gsap.to(counter, {
-        value: 200,
+      if (!countRef.current) return;
+      countUp(countRef.current, 200, {
+        trigger: scope.current,
+        start: "top 70%",
         duration: 1.8,
-        ease: "power2.out",
-        scrollTrigger: { trigger: scope.current, start: "top 70%", once: true },
-        onUpdate: () => {
-          if (countRef.current) {
-            countRef.current.textContent = `+${Math.round(counter.value)}`;
-          }
-        },
+        format: (n) => `+${n}`,
       });
     },
     { scope },

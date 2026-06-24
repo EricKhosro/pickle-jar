@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useGSAP } from "@/lib/gsap";
 import useReveal from "@/hooks/useReveal";
+import countUp from "@/lib/countUp";
 import { STATS } from "./metrics";
 import { Section, Inner, Item, Num, Label } from "./Stats.styles";
 
@@ -17,19 +18,10 @@ export default function Stats() {
       STATS.forEach((stat, i) => {
         const el = nums.current[i];
         if (!el) return;
-        const counter = { value: 0 };
-        gsap.to(counter, {
-          value: stat.value,
-          duration: 2,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: scope.current,
-            start: "top 80%",
-            once: true,
-          },
-          onUpdate: () => {
-            el.textContent = `${Math.round(counter.value)}${stat.suffix}`;
-          },
+        countUp(el, stat.value, {
+          trigger: scope.current,
+          start: "top 80%",
+          format: (n) => `${n}${stat.suffix}`,
         });
       });
     },

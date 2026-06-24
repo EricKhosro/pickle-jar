@@ -46,11 +46,7 @@ export const Intro = styled.div`
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-export const Eyebrow = styled.p`
-  font-family: ${({ theme }) => theme.fonts.serif};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  color: ${brand.orange};
-`;
+export { EyebrowSmall as Eyebrow } from "../common.styles";
 
 export const Heading = styled(HeadingBase).attrs({
   $color: "primary",
