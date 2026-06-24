@@ -43,16 +43,19 @@ export default function GameModal({ game, onClose }: GameModalProps) {
   const lenis = useLenis();
   const [viewer, setViewer] = useState<number | null>(null);
   const viewerRef = useRef<number | null>(null);
-  viewerRef.current = viewer;
+
+  useEffect(() => {
+    viewerRef.current = viewer;
+  }, [viewer]);
 
   const shots = game?.screenshots ?? [];
   const count = shots.length;
 
   useEffect(() => {
     if (!game) return;
-    setViewer(null);
 
-    const opener = document.activeElement as HTMLElement | null;
+    const active = document.activeElement;
+    const opener = active instanceof HTMLElement ? active : null;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (viewerRef.current !== null) setViewer(null);

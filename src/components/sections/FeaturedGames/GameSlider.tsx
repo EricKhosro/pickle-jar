@@ -47,7 +47,10 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
   const inView = useRef(false);
   const hintDone = useRef(false);
   const indexRef = useRef(index);
-  indexRef.current = index;
+
+  useEffect(() => {
+    indexRef.current = index;
+  }, [index]);
 
   const dismissHint = useCallback(() => {
     if (hintDone.current) return;
@@ -88,7 +91,7 @@ export default function GameSlider({ onOpen, className }: GameSliderProps) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!inView.current) return;
-      const target = e.target as HTMLElement | null;
+      const target = e.target instanceof HTMLElement ? e.target : null;
       if (
         target &&
         (target.tagName === "INPUT" ||

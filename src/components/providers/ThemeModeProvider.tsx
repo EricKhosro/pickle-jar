@@ -30,8 +30,9 @@ export function ThemeModeProvider({ children }: { children: React.ReactNode }) {
   const [mode, setModeState] = useState<ThemeMode>("dark");
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
-    if (stored) setModeState(stored);
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync persisted theme after hydration
+    if (stored === "light" || stored === "dark") setModeState(stored);
   }, []);
 
   const setMode = useCallback((next: ThemeMode) => {

@@ -30,6 +30,7 @@ export default function SmoothScroll({
     const tick = (time: number) => instance.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- expose the client-only Lenis instance via context
     setLenis(instance);
 
     return () => {

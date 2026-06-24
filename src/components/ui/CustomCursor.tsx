@@ -66,7 +66,7 @@ export default function CustomCursor() {
       spin(gsap.utils.mapRange(0, window.innerWidth, -180, 180, e.clientX));
       show();
 
-      const target = e.target as Element | null;
+      const target = e.target instanceof Element ? e.target : null;
       const isInteractive = !!target?.closest(INTERACTIVE);
       if (isInteractive !== hovering) {
         hovering = isInteractive;

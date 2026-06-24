@@ -7,12 +7,14 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 import { capTrim } from "@/components/sections/common.styles";
 import useHideOnScroll from "@/hooks/useHideOnScroll";
 
-const NAV_LINKS = [
+type NavItem = { label: string; href: string };
+
+const NAV_LINKS: NavItem[] = [
   { label: "About us", href: "#about" },
   { label: "Join us", href: "#featured" },
   { label: "Faq", href: "#faq" },
   { label: "Contact us", href: "#contact" },
-] as const;
+];
 
 const HeaderRoot = styled.header<{ $hidden: boolean }>`
   position: fixed;

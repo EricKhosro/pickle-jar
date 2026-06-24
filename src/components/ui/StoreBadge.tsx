@@ -75,7 +75,10 @@ const Label = styled.span<{ $expanded?: boolean }>`
   }
 `;
 
-const STORES = {
+type StoreKey = "ios" | "android";
+type StoreMeta = { top: string; bottom: string; src: string; size: string };
+
+const STORES: Record<StoreKey, StoreMeta> = {
   ios: {
     top: "Download on the",
     bottom: "App Store",
@@ -88,7 +91,7 @@ const STORES = {
     src: "/assets/icons/playstore.svg",
     size: "48px",
   },
-} as const;
+};
 
 export function StoreBadge({
   store,
@@ -96,7 +99,7 @@ export function StoreBadge({
   expanded = false,
   tone = "default",
 }: {
-  store: keyof typeof STORES;
+  store: StoreKey;
   href?: string;
   expanded?: boolean;
   tone?: Tone;

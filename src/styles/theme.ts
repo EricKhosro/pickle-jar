@@ -1,11 +1,147 @@
-export const breakpoints = {
+export type ThemeMode = "light" | "dark";
+
+interface Breakpoints {
+  mobile: number;
+  tablet: number;
+  desktop: number;
+  wide: number;
+}
+
+interface MediaQueries {
+  tablet: string;
+  desktop: string;
+  wide: string;
+  belowTablet: string;
+  belowDesktop: string;
+  reducedMotion: string;
+  canHover: string;
+}
+
+interface Fonts {
+  display: string;
+  heading: string;
+  body: string;
+  serif: string;
+}
+
+interface FontSizes {
+  xs: string;
+  sm: string;
+  md: string;
+  lg: string;
+  xl: string;
+  "2xl": string;
+  "3xl": string;
+  "4xl": string;
+}
+
+interface FontWeights {
+  regular: number;
+  medium: number;
+  semibold: number;
+  bold: number;
+  black: number;
+}
+
+interface LineHeights {
+  tight: number;
+  snug: number;
+  normal: number;
+  relaxed: number;
+}
+
+interface LetterSpacings {
+  tight: string;
+  normal: string;
+  wide: string;
+}
+
+interface Radii {
+  sm: string;
+  md: string;
+  lg: string;
+  xl: string;
+  pill: string;
+  round: string;
+}
+
+interface Spacing {
+  xs: string;
+  sm: string;
+  md: string;
+  lg: string;
+  xl: string;
+  "2xl": string;
+  "3xl": string;
+  "4xl": string;
+}
+
+interface ContainerTokens {
+  maxWidth: string;
+  padding: string;
+}
+
+interface Transitions {
+  fast: string;
+  base: string;
+  slow: string;
+}
+
+interface ZIndex {
+  base: number;
+  header: number;
+  overlay: number;
+  modal: number;
+  cursor: number;
+}
+
+interface ColorTokens {
+  background: string;
+  backgroundDeep: string;
+  surface: string;
+  surfaceRaised: string;
+  featureArt: string;
+  card: string;
+  text: string;
+  textMuted: string;
+  primary: string;
+  primaryHover: string;
+  onPrimary: string;
+  accent: string;
+  selection: string;
+  onSelection: string;
+  border: string;
+  overlay: string;
+  footer: string;
+  onFooter: string;
+  footerPickle: string;
+}
+
+export interface Theme {
+  mode: ThemeMode;
+  breakpoints: Breakpoints;
+  media: MediaQueries;
+  fonts: Fonts;
+  fontSizes: FontSizes;
+  fontWeights: FontWeights;
+  lineHeights: LineHeights;
+  letterSpacings: LetterSpacings;
+  radii: Radii;
+  spacing: Spacing;
+  container: ContainerTokens;
+  transitions: Transitions;
+  zIndex: ZIndex;
+  colors: ColorTokens;
+}
+
+export const breakpoints: Breakpoints = {
   mobile: 480,
   tablet: 768,
   desktop: 1024,
   wide: 1440,
-} as const;
+};
 
-export const media = {
+export const media: MediaQueries = {
   tablet: `@media (min-width: ${breakpoints.tablet}px)`,
   desktop: `@media (min-width: ${breakpoints.desktop}px)`,
   wide: `@media (min-width: ${breakpoints.wide}px)`,
@@ -13,9 +149,9 @@ export const media = {
   belowDesktop: `@media (max-width: ${breakpoints.desktop - 1}px)`,
   reducedMotion: "@media (prefers-reduced-motion: reduce)",
   canHover: "@media (hover: hover) and (pointer: fine)",
-} as const;
+};
 
-const shared = {
+const shared: Omit<Theme, "mode" | "colors"> = {
   breakpoints,
   media,
   fonts: {
@@ -77,7 +213,7 @@ const shared = {
     modal: 1000,
     cursor: 9999,
   },
-} as const;
+};
 
 export const brand = {
   orange: "#fd6721",
@@ -88,7 +224,7 @@ export const brand = {
   white: "#ffffff",
 };
 
-export const darkTheme = {
+export const darkTheme: Theme = {
   mode: "dark",
   ...shared,
   colors: {
@@ -114,7 +250,7 @@ export const darkTheme = {
   },
 };
 
-export const lightTheme = {
+export const lightTheme: Theme = {
   mode: "light",
   ...shared,
   colors: {
@@ -139,5 +275,3 @@ export const lightTheme = {
     footerPickle: "#F7611B",
   },
 };
-
-export type Theme = typeof darkTheme;

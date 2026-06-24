@@ -124,7 +124,11 @@ export default function Select({
   useEffect(() => {
     if (!open) return;
     const onPointerDown = (e: PointerEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+      if (
+        wrapRef.current &&
+        e.target instanceof Node &&
+        !wrapRef.current.contains(e.target)
+      ) {
         setOpen(false);
         onBlur?.();
       }

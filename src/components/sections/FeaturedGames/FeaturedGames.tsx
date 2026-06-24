@@ -77,7 +77,11 @@ export default function FeaturedGames() {
       </Inner>
 
       {selected !== null && (
-        <GameModal game={GAMES[selected]} onClose={() => setSelected(null)} />
+        <GameModal
+          key={selected}
+          game={GAMES[selected]}
+          onClose={() => setSelected(null)}
+        />
       )}
     </Section>
   );
