@@ -6,6 +6,7 @@ import Logo from "@/components/ui/Logo";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { capTrim } from "@/components/sections/common.styles";
 import useHideOnScroll from "@/hooks/useHideOnScroll";
+import { useLenis } from "@/components/providers/SmoothScroll";
 
 type NavItem = { label: string; href: string };
 
@@ -183,6 +184,23 @@ export default function Header() {
     };
   }, [open]);
 
+  const lenis = useLenis();
+
+  const onNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setOpen(false);
+    // eslint-disable-next-line react-hooks/immutability -- release the menu scroll-lock so the scroll isn't blocked on touch
+    document.body.style.overflow = "";
+    if (lenis) {
+      lenis.scrollTo(href, {
+        duration: 1.2,
+        easing: (t) => 1 - Math.pow(1 - t, 3),
+      });
+    } else {
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <HeaderRoot $hidden={hidden && !open}>
       <Inner>
@@ -192,7 +210,9 @@ export default function Header() {
           <NavList>
             {NAV_LINKS.map(({ label, href }) => (
               <li key={href}>
-                <NavLink href={href}>{label}</NavLink>
+                <NavLink href={href} onClick={(e) => onNavClick(e, href)}>
+                  {label}
+                </NavLink>
               </li>
             ))}
           </NavList>
@@ -214,7 +234,7 @@ export default function Header() {
 
       <MobileMenu $open={open} aria-hidden={!open}>
         {NAV_LINKS.map(({ label, href }) => (
-          <MobileLink key={href} href={href} onClick={() => setOpen(false)}>
+          <MobileLink key={href} href={href} onClick={(e) => onNavClick(e, href)}>
             {label}
           </MobileLink>
         ))}
