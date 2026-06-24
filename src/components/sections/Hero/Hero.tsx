@@ -12,11 +12,11 @@ import {
 } from "./Hero.styles";
 import { DecorLayer, Pickle, JarWrap, Jar } from "../common.styles";
 import { PickleConfig } from "../types";
+import Pickles from "@/components/ui/Pickles";
 import usePickles from "@/hooks/usePickles";
 import { useLenis } from "@/components/providers/SmoothScroll";
 
 const PICKLES: PickleConfig[] = [
-  { top: "90%", left: "10%", w: 250, rotate: 210, speed: -22, hide: true },
   { top: "20%", left: "1%", w: 190, rotate: 20, speed: 30 },
   { top: "10%", left: "90%", w: 320, rotate: 185, speed: -36 },
   { top: "48%", left: "15%", w: 300, rotate: 95, speed: 46 },
@@ -48,21 +48,7 @@ export default function Hero() {
   return (
     <Section ref={scope} id="home">
       <DecorLayer>
-        {PICKLES.map((p, i) => (
-          <Pickle
-            $hideOnMobile={p.hide}
-            data-gsap-hidden
-            key={i}
-            className="pickle"
-            aria-hidden="true"
-            data-rotate={p.rotate}
-            data-speed={p.speed}
-            $top={p.top}
-            $left={p.left}
-            $w={p.w}
-            $color="surfaceRaised"
-          />
-        ))}
+        <Pickles items={PICKLES} color="surfaceRaised" />
         <JarWrap
           data-gsap-hidden
           className="jar"
@@ -72,6 +58,18 @@ export default function Hero() {
         >
           <Jar />
         </JarWrap>
+
+        <Pickle
+          className="seam-pickle"
+          data-speed={-22}
+          aria-hidden="true"
+          $top="90%"
+          $left="10%"
+          $w={250}
+          $rotate={210}
+          $color="surfaceRaised"
+          $hideOnMobile
+        />
       </DecorLayer>
 
       <Content>

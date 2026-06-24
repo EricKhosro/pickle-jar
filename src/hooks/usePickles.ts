@@ -33,6 +33,47 @@ const usePickles = (
 
       let ctx: gsap.Context | null = null;
       let removeMove: (() => void) | null = null;
+      let removeSeamMove: (() => void) | null = null;
+
+      const parallaxMover = (els: HTMLElement[]) => {
+        const setters = els.map((el) => ({
+          x: gsap.quickTo(el, "x", { duration: 0.8, ease: "power3" }),
+          y: gsap.quickTo(el, "y", { duration: 0.8, ease: "power3" }),
+          speed: Number(el.dataset.speed) || 20,
+        }));
+        return (e: PointerEvent) => {
+          const dx =
+            (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+          const dy =
+            (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+          setters.forEach((s) => {
+            s.x(dx * s.speed);
+            s.y(dy * s.speed);
+          });
+        };
+      };
+
+      // seam halves span two clipped sections — reveal + parallax run here on a
+      // load delay (not the section intro) so both halves pop and track together
+      const seams = gsap.utils.toArray<HTMLElement>(".seam-pickle", root);
+      if (seams.length) {
+        gsap
+          .timeline({ delay: 0.9 })
+          .set(seams, { opacity: 0, scale: 0, transformOrigin: "50% 50%" })
+          .to(seams, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.7,
+            ease: "back.out(1.7)",
+          });
+
+        if (parallax) {
+          const moveSeams = parallaxMover(seams);
+          window.addEventListener("pointermove", moveSeams);
+          removeSeamMove = () =>
+            window.removeEventListener("pointermove", moveSeams);
+        }
+      }
 
       const build = () => {
         ctx = gsap.context(() => {
@@ -40,21 +81,6 @@ const usePickles = (
           const pickles = gsap.utils.toArray<HTMLElement>(".pickle", root);
 
           if (reveal) gsap.set(root, { autoAlpha: 1 });
-
-          // Seam pickles span two sections; pop them on a fixed delay from load
-          // (not the section's intro) so both halves arrive at the same moment.
-          const seams = gsap.utils.toArray<HTMLElement>(".seam-pickle", root);
-          if (seams.length) {
-            gsap
-              .timeline({ delay: 0.9 })
-              .set(seams, { opacity: 0, scale: 0, transformOrigin: "50% 50%" })
-              .to(seams, {
-                opacity: 1,
-                scale: 1,
-                duration: 0.7,
-                ease: "back.out(1.7)",
-              });
-          }
 
           if (!originEl || !pickles.length) return;
 
@@ -120,22 +146,10 @@ const usePickles = (
 
           if (!parallax) return;
 
-          const setters = [...pickles, ...seams].map((el) => ({
-            x: gsap.quickTo(el, "x", { duration: 0.8, ease: "power3" }),
-            y: gsap.quickTo(el, "y", { duration: 0.8, ease: "power3" }),
-            speed: Number(el.dataset.speed) || 20,
-          }));
-
+          const movePickles = parallaxMover(pickles);
           const onMove = (e: PointerEvent) => {
             if (!ready) return;
-            const dx =
-              (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-            const dy =
-              (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-            setters.forEach((s) => {
-              s.x(dx * s.speed);
-              s.y(dy * s.speed);
-            });
+            movePickles(e);
           };
 
           window.addEventListener("pointermove", onMove);
@@ -153,6 +167,7 @@ const usePickles = (
       return () => {
         stop();
         removeMove?.();
+        removeSeamMove?.();
         ctx?.revert();
       };
     },

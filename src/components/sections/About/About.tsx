@@ -54,7 +54,6 @@ export default function About() {
   );
 
   const PICKLES: PickleConfig[] = [
-    { top: "-10vh", left: "10%", w: 250, rotate: 210, speed: -22, hide: true },
     { top: "35%", left: "15%", w: 300, rotate: 95, speed: 46 },
     { top: "63%", left: "75%", w: 210, rotate: 220, speed: -26, hide: true },
     { top: "5%", left: "80%", w: 150, rotate: -100, speed: 24 },
@@ -87,6 +86,18 @@ export default function About() {
       </Intro>
 
       <FeatureCards />
+
+      <Pickle
+        className="seam-pickle"
+        data-speed={-22}
+        aria-hidden="true"
+        $top="-10vh"
+        $left="10%"
+        $w={250}
+        $rotate={210}
+        $color="primary"
+        $hideOnMobile
+      />
 
       <Pickle
         className="seam-pickle"

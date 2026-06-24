@@ -42,6 +42,7 @@ const GlobalStyles = createGlobalStyle`
 
   .seam-pickle {
     opacity: 0;
+    visibility: visible;
   }
 
   ${({ theme }) => theme.media.reducedMotion} {
